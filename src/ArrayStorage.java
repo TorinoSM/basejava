@@ -35,6 +35,7 @@ public class ArrayStorage {
             }
             if (r.uuid == uuid) {
                 storage[ind] = null;
+                size--;
                 break;
             }
             ind++;

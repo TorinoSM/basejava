@@ -49,6 +49,7 @@ public class ArrayStorage {
         }
         if (size == 0) {
             System.out.println("Nothing to delete: storage is empty");
+            return;
         }
         for (int i = 0; i < size; i++) {
             if (storage[i].uuid == uuid) {

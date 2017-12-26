@@ -30,7 +30,7 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        if (uuid.equals("")) {
+        if ("".equals(uuid)) {
             System.out.println("Resume's uuid can't be empty");
             return null;
         }
@@ -43,7 +43,7 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {   // предполагаем, что null-элементов в массиве быть не может
-        if (uuid.equals("")) {
+        if ("".equals(uuid)) {
             System.out.println("Resume's uuid can't be empty");
             return;
         }
@@ -74,7 +74,6 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-
         Resume[] temp = new Resume[size];
         System.arraycopy(storage, 0, temp, 0, size);
         return temp;

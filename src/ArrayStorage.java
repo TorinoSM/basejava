@@ -30,8 +30,8 @@ public class ArrayStorage {
                 storage[i] = updatedResume;
                 System.out.println("Success: Update: Resume with uuid = " + oldResume.uuid + " replaced with resume with uuid = " + updatedResume == null ? null : updatedResume.uuid);
             }
-            System.out.println("Warning: Update: Resume with uuid = " + oldResume.uuid + " did not found");
         }
+        System.out.println("Warning: Update: Resume with uuid = " + oldResume.uuid + " did not found");
     }
 
     void save(Resume r) {

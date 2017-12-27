@@ -24,7 +24,7 @@ public class ArrayStorage {
         for (int i = 0; i < size; i++) {
             if (storage[i].uuid == oldResume.uuid) {
                 if (updatedResume == null) {
-                    storage[i] = null;
+                    delete(storage[i].uuid); // замена на null-резюме равносильна удалению этого резюме из базы
                     return;
                 }
                 storage[i] = updatedResume;

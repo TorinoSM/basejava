@@ -17,6 +17,10 @@ public class ArrayStorage {
     }
 
     void update(Resume oldResume, Resume updatedResume) {
+        if(updatedResume==oldResume){
+            System.out.println("Error: Update: Resumes can't be the same");
+            return;
+        }
         if (oldResume == null) {
             System.out.println("Error: Update: Resume to be replaced can't be null");
             return;

@@ -16,43 +16,69 @@ public class ArrayStorage {
         size = 0;
     }
 
+    void update(Resume oldResume, Resume updatedResume) {
+        if (oldResume == null) {
+            System.out.println("Error: Update: Resume to be replaced can't be null");
+            return;
+        }
+        for (int i = 0; i < size; i++) {
+            if (storage[i].uuid == oldResume.uuid) {
+                if (updatedResume == null) {
+                    storage[i] = null;
+                }
+                storage[i] = updatedResume;
+                System.out.println("Success: Update: Resume with uuid = " + oldResume.uuid + " replaced with resume with uuid = " + updatedResume == null ? null : updatedResume.uuid);
+            }
+            System.out.println("Warning: Update: Resume with uuid = " + oldResume.uuid + " did not found");
+        }
+    }
+
     void save(Resume r) {
         if (r == null) {
-            System.out.println("Resume can't be null");
+            System.out.println("Error: Save: Resume can't be null");
             return;
         }
         if (size >= lenght) {
-            System.out.println("Can't save resume: reached maximum capacity of storage (" + lenght + " records)");
+            System.out.println("Error: Save: Can't save resume: reached maximum capacity of storage (" + lenght + " records)");
             return;
+        }
+        for (int i = 0; i < size; i++) {
+            if (storage[i].uuid == r.uuid) {
+                System.out.println("Warning: Save: Resume with uuid = " + r.uuid + " already exists");
+            }
         }
         storage[size] = r;
         size++;
+        System.out.println("Success: Save: Created new resume with uuid = " + r.uuid);
     }
 
     Resume get(String uuid) {
         if ("".equals(uuid)) {
-            System.out.println("Resume's uuid can't be empty");
+            System.out.println("Error: Get: Resume's uuid can't be empty");
             return null;
         }
         for (int i = 0; i < size; i++) {
             if (storage[i].uuid == uuid) {
+                System.out.println("Success: Get: Found resume with uuid = " + uuid);
                 return storage[i];  // конкретное резюме найдено
             }
         }
+        System.out.println("Warning: Get: Resume with uuid = " + uuid + " did not found");
         return null;  // конкретное резюме НЕ найдено
     }
 
     void delete(String uuid) {   // предполагаем, что null-элементов в массиве быть не может
         if ("".equals(uuid)) {
-            System.out.println("Resume's uuid can't be empty");
+            System.out.println("Warning: Delete: Resume's uuid can't be empty");
             return;
         }
         if (size == 0) {
-            System.out.println("Nothing to delete: storage is empty");
+            System.out.println("Warning: Delete: Nothing to delete: storage is empty");
             return;
         }
         for (int i = 0; i < size; i++) {
             if (storage[i].uuid == uuid) {
+                System.out.println("Success: Delete: Deleted resume with uuid = " + uuid);
                 if (size == 1) { // если только один элемент в массиве то очищаем массив
                     clear();
                     return;
@@ -67,6 +93,7 @@ public class ArrayStorage {
                 size--;
                 return;
             }
+            System.out.println("Warning: Delete: Resume with uuid = " + uuid + " did not found");
         }
     }
 

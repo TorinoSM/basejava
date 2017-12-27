@@ -25,6 +25,7 @@ public class ArrayStorage {
             if (storage[i].uuid == oldResume.uuid) {
                 if (updatedResume == null) {
                     storage[i] = null;
+                    return;
                 }
                 storage[i] = updatedResume;
                 System.out.println("Success: Update: Resume with uuid = " + oldResume.uuid + " replaced with resume with uuid = " + updatedResume == null ? null : updatedResume.uuid);

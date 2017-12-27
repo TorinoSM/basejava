@@ -22,6 +22,12 @@ public class ArrayStorage {
             return;
         }
         for (int i = 0; i < size; i++) {
+            if (storage[i].uuid == updatedResume.uuid) {
+                System.out.println("Warning: Update: Resume with uuid = " + storage[i].uuid + " already exists");
+                return;
+            }
+        }
+        for (int i = 0; i < size; i++) {
             if (storage[i].uuid == oldResume.uuid) {
                 if (updatedResume == null) {
                     delete(storage[i].uuid); // замена на null-резюме равносильна удалению этого резюме из базы
@@ -50,7 +56,7 @@ public class ArrayStorage {
         }
         storage[size] = r;
         size++;
-        System.out.println("Success: Save: Created new resume with uuid = " + r.uuid);
+        System.out.println("Success: Save: Saved new resume with uuid = " + r.uuid);
     }
 
     Resume get(String uuid) {

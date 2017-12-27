@@ -29,12 +29,14 @@ public class ArrayStorage {
         }
         for (int i = 0; i < size; i++) {
             if (storage[i].uuid == oldResume.uuid) {
+                if (updatedResume != null) {
+                    System.out.println("Success: Update: Resume with uuid = " + oldResume.uuid + " replaced with resume with uuid = " + updatedResume.uuid);
+                }
                 if (updatedResume == null) {
                     delete(storage[i].uuid); // замена на null-резюме равносильна удалению этого резюме из базы
                     return;
                 }
                 storage[i] = updatedResume;
-                System.out.println("Success: Update: Resume with uuid = " + oldResume.uuid + " replaced with resume with uuid = " + updatedResume == null ? null : updatedResume.uuid);
             }
         }
         System.out.println("Warning: Update: Resume with uuid = " + oldResume.uuid + " did not found");

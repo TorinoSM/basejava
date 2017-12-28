@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Array based storage for Resumes
  */
@@ -9,44 +11,28 @@ public class ArrayStorage {
     private int lenght = storage.length; // максимальный размер массива
     private int size = 0; // количество непустых резюме в массиве
 
-    void clear() {
+    public void clear() {
         for (int i = 0; i < size; i++) {
             storage[i] = null;
         }
         size = 0;
     }
 
-    void update(Resume oldResume, Resume updatedResume) {
-        if(updatedResume==oldResume){
-            System.out.println("Error: Update: Resumes can't be the same");
-            return;
-        }
-        if (oldResume == null) {
-            System.out.println("Error: Update: Resume to be replaced can't be null");
-            return;
+    public void update(Resume updatedResume) {
+        if (updatedResume == null) {
+            System.out.println("Error: Update: Cannot update with resume which is null");
         }
         for (int i = 0; i < size; i++) {
             if (storage[i].uuid == updatedResume.uuid) {
-                System.out.println("Warning: Update: Resume with uuid = " + storage[i].uuid + " already exists");
+                storage[i] = updatedResume;
+                System.out.println("Success: Update: Resume with uuid =\"" + storage[i].uuid + "\" is updated");
                 return;
             }
         }
-        for (int i = 0; i < size; i++) {
-            if (storage[i].uuid == oldResume.uuid) {
-                if (updatedResume != null) {
-                    System.out.println("Success: Update: Resume with uuid = " + oldResume.uuid + " replaced with resume with uuid = " + updatedResume.uuid);
-                }
-                if (updatedResume == null) {
-                    delete(storage[i].uuid); // замена на null-резюме равносильна удалению этого резюме из базы
-                    return;
-                }
-                storage[i] = updatedResume;
-            }
-        }
-        System.out.println("Warning: Update: Resume with uuid = " + oldResume.uuid + " did not found");
+        System.out.println("Warning: Update: Couldn't find resume with uuid =\"" + updatedResume.uuid + "\"");
     }
 
-    void save(Resume r) {
+    public void save(Resume r) {
         if (r == null) {
             System.out.println("Error: Save: Resume can't be null");
             return;
@@ -57,30 +43,31 @@ public class ArrayStorage {
         }
         for (int i = 0; i < size; i++) {
             if (storage[i].uuid == r.uuid) {
-                System.out.println("Warning: Save: Resume with uuid = " + r.uuid + " already exists");
+                System.out.println("Warning: Save: Resume with uuid = \"" + r.uuid + "\" already exists");
+                return;
             }
         }
         storage[size] = r;
         size++;
-        System.out.println("Success: Save: Saved new resume with uuid = " + r.uuid);
+        System.out.println("Success: Save: Saved new resume with uuid = \"" + r.uuid + "\"");
     }
 
-    Resume get(String uuid) {
+    public Resume get(String uuid) {
         if ("".equals(uuid)) {
             System.out.println("Error: Get: Resume's uuid can't be empty");
             return null;
         }
         for (int i = 0; i < size; i++) {
             if (storage[i].uuid == uuid) {
-                System.out.println("Success: Get: Found resume with uuid = " + uuid);
+                System.out.println("Success: Get: Found resume with uuid = \"" + uuid + "\"");
                 return storage[i];  // конкретное резюме найдено
             }
         }
-        System.out.println("Warning: Get: Resume with uuid = " + uuid + " did not found");
+        System.out.println("Warning: Get: Resume with uuid = \"" + uuid + "\" did not found");
         return null;  // конкретное резюме НЕ найдено
     }
 
-    void delete(String uuid) {   // предполагаем, что null-элементов в массиве быть не может
+    public void delete(String uuid) {   // предполагаем, что null-элементов в массиве быть не может
         if ("".equals(uuid)) {
             System.out.println("Warning: Delete: Resume's uuid can't be empty");
             return;
@@ -91,35 +78,24 @@ public class ArrayStorage {
         }
         for (int i = 0; i < size; i++) {
             if (storage[i].uuid == uuid) {
-                System.out.println("Success: Delete: Deleted resume with uuid = " + uuid);
-                if (size == 1) { // если только один элемент в массиве то очищаем массив
-                    clear();
-                    return;
-                }
-                if (i == (size - 1)) {  // если найденный элемент находится к конце массива
-                    storage[size - 1] = null; // то обнуляем его
-                    size--;
-                    return;
-                }
-                System.arraycopy(storage, i + 1, storage, i, size - i - 1); // сдвинули правую часть массива на один элемент влево, затерев текущий элемент
+                storage[i] = storage[size - 1]; // moved the last element into the deleted one
                 storage[size - 1] = null;
                 size--;
+                System.out.println("Success: Delete: Deleted resume with uuid = \"" + uuid + "\"");
                 return;
             }
-            System.out.println("Warning: Delete: Resume with uuid = " + uuid + " did not found");
         }
+        System.out.println("Warning: Delete: Resume with uuid = \"" + uuid + "\" did not found");
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] temp = new Resume[size];
-        System.arraycopy(storage, 0, temp, 0, size);
-        return temp;
+        return Arrays.copyOfRange(storage, 0, size);
     }
 
-    int size() {
+    public int size() {
         return size;
     }
 }

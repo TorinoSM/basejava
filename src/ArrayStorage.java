@@ -23,13 +23,13 @@ public class ArrayStorage {
             System.out.println("Error: Update: Cannot update with resume which is null");
         }
         for (int i = 0; i < size; i++) {
-            if (storage[i].uuid == updatedResume.uuid) {
+            if (storage[i].uuid.equals(updatedResume.uuid)) {
                 storage[i] = updatedResume;
-                System.out.println("Success: Update: Resume with uuid =\"" + storage[i].uuid + "\" is updated");
+                System.out.println("Success: Update: Resume with uuid = \"" + storage[i].uuid + "\" is updated");
                 return;
             }
         }
-        System.out.println("Warning: Update: Couldn't find resume with uuid =\"" + updatedResume.uuid + "\"");
+        System.out.println("Warning: Update: Couldn't find resume with uuid = \"" + updatedResume.uuid + "\"");
     }
 
     public void save(Resume r) {
@@ -42,7 +42,7 @@ public class ArrayStorage {
             return;
         }
         for (int i = 0; i < size; i++) {
-            if (storage[i].uuid == r.uuid) {
+            if (storage[i].uuid.equals(r.uuid)) {
                 System.out.println("Warning: Save: Resume with uuid = \"" + r.uuid + "\" already exists");
                 return;
             }
@@ -77,7 +77,7 @@ public class ArrayStorage {
             return;
         }
         for (int i = 0; i < size; i++) {
-            if (storage[i].uuid == uuid) {
+            if (storage[i].uuid.equals(uuid)) {
                 storage[i] = storage[size - 1]; // moved the last element into the deleted one
                 storage[size - 1] = null;
                 size--;

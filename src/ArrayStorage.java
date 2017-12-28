@@ -21,6 +21,7 @@ public class ArrayStorage {
     public void update(Resume updatedResume) {
         if (updatedResume == null) {
             System.out.println("Error: Update: Cannot update with resume which is null");
+            return;
         }
         for (int i = 0; i < size; i++) {
             if (storage[i].uuid.equals(updatedResume.uuid)) {
@@ -58,7 +59,7 @@ public class ArrayStorage {
             return null;
         }
         for (int i = 0; i < size; i++) {
-            if (storage[i].uuid == uuid) {
+            if (storage[i].uuid.equals(uuid)) {
                 System.out.println("Success: Get: Found resume with uuid = \"" + uuid + "\"");
                 return storage[i];  // конкретное резюме найдено
             }

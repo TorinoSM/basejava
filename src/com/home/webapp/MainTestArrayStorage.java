@@ -2,12 +2,13 @@ package com.home.webapp;
 
 import com.home.webapp.model.Resume;
 import com.home.webapp.storage.ArrayStorage;
+import com.home.webapp.storage.Storage;
 
 /**
  * Test for com.urise.webapp.storage.com.home.webapp.storage.ArrayStorage
  */
 public class MainTestArrayStorage {
-    private static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+    private static final Storage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) {
         Resume r1 = new Resume();

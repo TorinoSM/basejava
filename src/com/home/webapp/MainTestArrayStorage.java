@@ -2,29 +2,33 @@ package com.home.webapp;
 
 import com.home.webapp.model.Resume;
 import com.home.webapp.storage.ArrayStorage;
+import com.home.webapp.storage.SortedArrayStorage;
 import com.home.webapp.storage.Storage;
 
 /**
  * Test for com.urise.webapp.storage.com.home.webapp.storage.ArrayStorage
  */
 public class MainTestArrayStorage {
-    private static final Storage ARRAY_STORAGE = new ArrayStorage();
+    private static final Storage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) {
         Resume r1 = new Resume();
-        r1.setUuid("uuid1");
+        r1.setUuid("uuid4");
         Resume r2 = new Resume();
-        r2.setUuid("uuid2");
+        r2.setUuid("uuid1");
         Resume r3 = new Resume();
         r3.setUuid("uuid3");
         Resume r4 = new Resume();
-        r4.setUuid("uuid4");
+        r4.setUuid("uuid2");
         Resume r5 = new Resume();
-        r5.setUuid("uuid5");
+        r5.setUuid("uuid4");
 
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);
         ARRAY_STORAGE.save(r3);
+        ARRAY_STORAGE.save(r4);
+        ARRAY_STORAGE.save(r5);
+
         ARRAY_STORAGE.delete(r3.getUuid());
         ARRAY_STORAGE.update(r1);
 

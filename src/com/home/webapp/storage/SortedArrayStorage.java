@@ -18,17 +18,8 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected int getIndex(String uuid) {
-        if ("".equals(uuid)) return -1; // uuid can not be null
         Resume key = new Resume();
         key.setUuid(uuid);
         return Arrays.binarySearch(storage, 0, size, key); // if no key found, return future position of key with negative sign
     }
-
-    @Override
-    protected int getIndex(Resume resume) {
-        if (resume == null) return -1; // resume can not be null
-        return Arrays.binarySearch(storage, 0, size, resume);  // if no key found, return future position of key with negative sign
-    }
-
-
 }

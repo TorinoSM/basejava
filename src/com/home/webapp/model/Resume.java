@@ -13,12 +13,12 @@ public class Resume implements Comparable<Resume> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Resume resume = (Resume) o;
-        return this.getUuid().equals(resume.getUuid()); // Таня обрати пжл внимание на это сравнение. Где-то читал, что при работе с БД возможна ситуация, когда при прямом доступе к полям возвращаются прокси-объекты из-за ленивой инициализации, а не реальные значения полей. Это правильное решение на будущее, или ненужное усложнение? Что с точки зрения производительности?
+        return this.uuid.equals(resume.uuid);
     }
 
     @Override
     public int hashCode() {
-        String uuid = this.getUuid();
+        String uuid = getUuid();
         char[] ch = uuid.toCharArray();
         int len = uuid.length();
         int hash = 0;
@@ -43,6 +43,6 @@ public class Resume implements Comparable<Resume> {
 
     @Override
     public int compareTo(Resume o) {
-        return this.getUuid().compareTo(o.getUuid());
+        return this.uuid.compareTo(o.uuid);
     }
 }

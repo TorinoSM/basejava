@@ -20,10 +20,10 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Error: Save: Can't save resume: reached maximum capacity of the storage (" + STORAGE_LIMIT + " records)");
             return;
         }
-        int index = this.getIndex(r); // для всех реализаций требуется следующее поведение: index<0?элемент не найден+возвращается (-точка вставки)-1:элемент найден+возвращается индекс элемента
+        int index = getIndex(r.getUuid()); // для всех реализаций требуется следующее поведение: index<0?элемент не найден+возвращается (-точка вставки)-1:элемент найден+возвращается индекс элемента
 
         if (index < 0) { //  uuid not found
-            this.insertElement(r, index);
+            insertElement(r, index);
             size++;
             System.out.println("Success: Save: Saved new resume with uuid = \"" + r.getUuid() + "\"");
         } else {  //  uuid found
@@ -40,12 +40,12 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Warning: Delete: Nothing to delete: storage is empty");
             return;
         }
-        int index = this.getIndex(uuid);
+        int index = getIndex(uuid);
 
         if (index < 0) { // uuid not found
             System.out.println("Warning: Delete: Resume with uuid = \"" + uuid + "\" not found");
         } else { // uuid found
-            this.deleteElement(index);
+            deleteElement(index);
             storage[size - 1] = null;
             size--;
             System.out.println("Success: Delete: Deleted resume with uuid = \"" + uuid + "\"");
@@ -63,7 +63,7 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Error: Update: Cannot update with resume which is null");
             return;
         }
-        int index = this.getIndex(updatedResume);
+        int index = getIndex(updatedResume.getUuid());
         if (index < 0) { //  uuid not found
             System.out.println("Warning: Update: Couldn't find resume with uuid = \"" + updatedResume.getUuid() + "\"");
         } else {
@@ -77,13 +77,15 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Error: Get: Resume's uuid can't be empty");
             return null;
         }
-        int index = this.getIndex(uuid);
-        if (index > -1) {
+        int index = getIndex(uuid);
+
+        if (index < 0) { // uuid not found
+            System.out.println("Warning: Get: Resume with uuid = \"" + uuid + "\" did not found");
+            return null;
+        } else { // uuid found
             System.out.println("Success: Get: Found resume with uuid = \"" + uuid + "\"");
             return storage[index];  // конкретное резюме найдено
         }
-        System.out.println("Warning: Get: Resume with uuid = \"" + uuid + "\" did not found");
-        return null;  // конкретное резюме НЕ найдено
     }
 
     public int size() {
@@ -98,8 +100,6 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     protected abstract int getIndex(String uuid);
-
-    protected abstract int getIndex(Resume resume);
 
     protected abstract void insertElement(Resume resume, int index);
 

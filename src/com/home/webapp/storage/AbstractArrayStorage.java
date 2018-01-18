@@ -1,5 +1,9 @@
 package com.home.webapp.storage;
 
+import com.home.webapp.exception.ExistStorageException;
+import com.home.webapp.exception.IllegalArgumentException;
+import com.home.webapp.exception.NotExistStorageException;
+import com.home.webapp.exception.StorageException;
 import com.home.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -10,40 +14,33 @@ public abstract class AbstractArrayStorage implements Storage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0; // количество непустых резюме в массиве
 
-
     public void save(Resume r) {
         if (r == null) {
-            System.out.println("Error: Save: Resume can't be null");
-            return;
+            throw new IllegalArgumentException();
         }
+        String uuid = r.getUuid();
         if (size >= STORAGE_LIMIT) {
-            System.out.println("Error: Save: Can't save resume: reached maximum capacity of the storage (" + STORAGE_LIMIT + " records)");
-            return;
+            throw new StorageException("Error: Save: Can't save resume: reached maximum capacity of the storage (" + STORAGE_LIMIT + " records)", uuid);
         }
-        int index = getIndex(r.getUuid()); // для всех реализаций требуется следующее поведение: index<0?элемент не найден+возвращается (-точка вставки)-1:элемент найден+возвращается индекс элемента
+        int index = getIndex(uuid); // index<0?элемент не найден+возвращается (-точка вставки)-1:элемент найден+возвращается индекс элемента
 
         if (index < 0) { //  uuid not found
             insertElement(r, index);
             size++;
-            System.out.println("Success: Save: Saved new resume with uuid = \"" + r.getUuid() + "\"");
+            System.out.println("Success: Save: Saved new resume with uuid = \"" + uuid + "\"");
         } else {  //  uuid found
-            System.out.println("Warning: Save: Resume with uuid = \"" + r.getUuid() + "\" already exists");
+            throw new ExistStorageException(uuid);
         }
     }
 
     public void delete(String uuid) {
         if ("".equals(uuid)) {
-            System.out.println("Warning: Delete: Resume's uuid can't be empty");
-            return;
-        }
-        if (size == 0) {
-            System.out.println("Warning: Delete: Nothing to delete: storage is empty");
-            return;
+            throw new IllegalArgumentException();
         }
         int index = getIndex(uuid);
 
         if (index < 0) { // uuid not found
-            System.out.println("Warning: Delete: Resume with uuid = \"" + uuid + "\" not found");
+            throw new NotExistStorageException(uuid);
         } else { // uuid found
             deleteElement(index);
             storage[size - 1] = null;
@@ -52,7 +49,6 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
@@ -60,12 +56,12 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public void update(Resume updatedResume) {
         if (updatedResume == null) {
-            System.out.println("Error: Update: Cannot update with resume which is null");
-            return;
+            throw new IllegalArgumentException();
         }
-        int index = getIndex(updatedResume.getUuid());
+        String uuid = updatedResume.getUuid();
+        int index = getIndex(uuid);
         if (index < 0) { //  uuid not found
-            System.out.println("Warning: Update: Couldn't find resume with uuid = \"" + updatedResume.getUuid() + "\"");
+            throw new NotExistStorageException(uuid);
         } else {
             storage[index] = updatedResume;
             System.out.println("Success: Update: Resume with uuid = \"" + storage[index].getUuid() + "\" is updated");
@@ -74,14 +70,12 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public Resume get(String uuid) {
         if ("".equals(uuid)) {
-            System.out.println("Error: Get: Resume's uuid can't be empty");
-            return null;
+            throw new IllegalArgumentException();
         }
         int index = getIndex(uuid);
 
         if (index < 0) { // uuid not found
-            System.out.println("Warning: Get: Resume with uuid = \"" + uuid + "\" did not found");
-            return null;
+            throw new NotExistStorageException(uuid);
         } else { // uuid found
             System.out.println("Success: Get: Found resume with uuid = \"" + uuid + "\"");
             return storage[index];  // конкретное резюме найдено

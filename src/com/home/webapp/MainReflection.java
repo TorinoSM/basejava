@@ -10,8 +10,8 @@ public class MainReflection {
 
         Resume resume = new Resume("test_reflection");
         Class clazz = resume.getClass();
-        Method method = clazz.getMethod("toString", null);
-        String show_result = (String) method.invoke(resume, null);
+        Method method = clazz.getMethod("toString");
+        String show_result = (String) method.invoke(resume);
         System.out.println(show_result);
     }
 }

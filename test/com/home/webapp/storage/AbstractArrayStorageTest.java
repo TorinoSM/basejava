@@ -13,15 +13,14 @@ import org.junit.Test;
 
 public abstract class AbstractArrayStorageTest {
 
-    Resume ruuid1 = new Resume("uuid1");
-    Resume ruuid2 = new Resume("uuid2");
-    Resume ruuid3 = new Resume("uuid3");
-    Resume ruuid4 = new Resume("uuid4");
-    Resume ruuid5 = new Resume("uuid5");
-    Resume ruuid6 = new Resume("uuid6");
+    private Resume ruuid1 = new Resume("uuid1");
+    private Resume ruuid2 = new Resume("uuid2");
+    private Resume ruuid3 = new Resume("uuid3");
+    private Resume ruuid4 = new Resume("uuid4");
+    private Resume ruuid5 = new Resume("uuid5");
     private Storage storage;
 
-    public AbstractArrayStorageTest(Storage storage) {
+    protected AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -42,7 +41,7 @@ public abstract class AbstractArrayStorageTest {
     @Test()
     public void saveNotExist() throws Exception {
 
-        storage.save(new Resume("uuid5"));
+        storage.save(ruuid5);
         Assert.assertEquals(ruuid1, storage.get("uuid1"));
         Assert.assertEquals(ruuid2, storage.get("uuid2"));
         Assert.assertEquals(ruuid3, storage.get("uuid3"));

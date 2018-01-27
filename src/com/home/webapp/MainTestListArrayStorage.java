@@ -2,14 +2,14 @@ package com.home.webapp;
 
 import com.home.webapp.exception.StorageException;
 import com.home.webapp.model.Resume;
-import com.home.webapp.storage.SortedArrayStorage;
+import com.home.webapp.storage.ListStorage;
 import com.home.webapp.storage.Storage;
 
 /**
  * Test for com.urise.webapp.storage.com.home.webapp.storage.ArrayStorage
  */
-public class MainTestArrayStorage {
-    private static final Storage ARRAY_STORAGE = new SortedArrayStorage();
+public class MainTestListArrayStorage {
+    private static final Storage ARRAY_STORAGE = new ListStorage();
 
     public static void main(String[] args) throws StorageException {
         Resume r1 = new Resume("uuid4");

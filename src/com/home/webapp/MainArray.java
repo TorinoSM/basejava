@@ -1,7 +1,6 @@
 package com.home.webapp;
 
 import com.home.webapp.model.Resume;
-import com.home.webapp.storage.ArrayStorage;
 import com.home.webapp.storage.SortedArrayStorage;
 import com.home.webapp.storage.Storage;
 

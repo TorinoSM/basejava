@@ -7,24 +7,29 @@ import com.home.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
+    protected abstract Resume getElement(Object searchKey);
 
-    public void save(Resume r) {
+    protected abstract void deleteElement(Object searchKey);
 
-        if (r == null) {
+    protected abstract void updateElement(Resume updatedResume, Object searchKey);
+
+    protected abstract Object getSearchKey(String uuid);
+
+    protected abstract void saveElement(Resume resume, Object searchKey);
+
+    protected abstract boolean isExist(Object searchKey);
+
+    public void save(Resume resume) {
+        if (resume == null) {
             throw new IllegalArgumentException();
         }
-        checkStorageOverflow(r);
 
-        String uuid = r.getUuid();
-        int index = getIndex(uuid);
-
-        if (index < 0) {
-            insertElement(r, index);
-            System.out.println("Success: Save: Saved new resume with uuid = \"" + uuid + "\"");
-        } else {
-            throw new ExistStorageException(uuid);
-        }
+        String uuid = resume.getUuid();
+        Object searchKey = getSearchKeyIfNotExist(uuid);
+        System.out.println("Success: Save: Saved new resume with uuid = \"" + uuid + "\"");
+        saveElement(resume, searchKey);
     }
+
 
     public void update(Resume updatedResume) {
         if (updatedResume == null) {
@@ -32,54 +37,47 @@ public abstract class AbstractStorage implements Storage {
         }
 
         String uuid = updatedResume.getUuid();
-        int index = getIndex(uuid);
-
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            System.out.println("Success: Update: Resume with uuid = \"" + uuid + "\" is updated");
-            updateElement(updatedResume, index);
-        }
+        Object searchKey = getSearchKeyIfExist(uuid);
+        System.out.println("Success: Update: Resume with uuid = \"" + uuid + "\" is updated");
+        updateElement(updatedResume, searchKey);
     }
+
 
     public void delete(String uuid) {
         if ("".equals(uuid)) {
             throw new IllegalArgumentException();
         }
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            System.out.println("Success: Delete: Deleted resume with uuid = \"" + uuid + "\"");
-            deleteElement(index);
-        }
+
+        Object searchKey = getSearchKeyIfExist(uuid);
+        System.out.println("Success: Delete: Deleted resume with uuid = \"" + uuid + "\"");
+        deleteElement(searchKey);
     }
+
 
     public Resume get(String uuid) {
         if ("".equals(uuid)) {
             throw new IllegalArgumentException();
         }
 
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            System.out.println("Success: Get: Found resume with uuid = \"" + uuid + "\"");
-            return getElement(index);
-        }
+        Object searchKey = getSearchKeyIfExist(uuid);
+        System.out.println("Success: Get: Found resume with uuid = \"" + uuid + "\"");
+        return getElement(searchKey);
     }
 
-    protected abstract Resume getElement(int index);
 
-    protected abstract void deleteElement(int index);
+    private Object getSearchKeyIfExist(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+        if (!isExist(searchKey)) {
+            throw new NotExistStorageException(uuid);
+        }
+        return searchKey;
+    }
 
-    protected abstract void updateElement(Resume updatedResume, int index);
-
-    protected abstract void insertElement(Resume r, int index);
-
-    protected abstract void checkStorageOverflow(Resume r);
-
-    protected abstract int getIndex(String uuid);
-
-
+    private Object getSearchKeyIfNotExist(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+        if (isExist(searchKey)) {
+            throw new ExistStorageException(uuid);
+        }
+        return searchKey;
+    }
 }

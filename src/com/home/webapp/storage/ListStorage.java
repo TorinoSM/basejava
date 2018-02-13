@@ -1,50 +1,50 @@
 package com.home.webapp.storage;
 
-import com.home.webapp.exception.IllegalArgumentException;
-import com.home.webapp.exception.NotExistStorageException;
 import com.home.webapp.model.Resume;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListStorage extends AbstractStorage {
 
-    private final ArrayList<Resume> storage = new ArrayList<>();
+    private final List<Resume> storage = new ArrayList<>();
 
 
     @Override
     public void clear() {
         storage.clear();
-        storage.trimToSize();
     }
 
-    protected int getIndex(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         for (int i = 0; i < storage.size(); i++) {
             if (storage.get(i).getUuid().equals(uuid)) return i; // uuid found
         }
-        return -1; // uuid not found
+        return null; // uuid not found
     }
 
-    protected void insertElement(Resume resume, int index) { // index is only used for method's signature match
+    @Override
+    protected void saveElement(Resume resume, Object index) {
         storage.add(resume);
     }
 
-    protected void updateElement(Resume updatedResume, int index) {
-        storage.add(index, updatedResume);
+    @Override
+    protected boolean isExist(Object searchKey) {
+        return searchKey != null;
     }
-
 
     @Override
-    protected void checkStorageOverflow(Resume r) {
-        // stub (not necessary for ListStorage)
+    protected void updateElement(Resume updatedResume, Object index) {
+        storage.set((Integer) index, updatedResume);
     }
 
-    protected Resume getElement(int index){
-        return storage.get(index);
+    @Override
+    protected Resume getElement(Object index) {
+        return storage.get((Integer) index);
     }
 
-    protected void deleteElement(int index) {
-        storage.remove(index);
-        storage.trimToSize();
+    @Override
+    protected void deleteElement(Object index) {
+        storage.remove(((Integer) index).intValue());
     }
 
     @Override

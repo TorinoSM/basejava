@@ -10,17 +10,15 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         index = (-index) - 1; // calculate insertion point from the value returned
         System.arraycopy(storage, index, storage, index + 1, size - index);
         storage[index] = resume;
-        size++;
     }
 
-    protected void deleteElement(int index) {
+    protected void deleteElementOfArray(int index) {
         System.arraycopy(storage, index + 1, storage, index, size - index - 1); // сдвигаем на одну позицию влево правую часть массива
         storage[size - 1] = null;
-        size--;
     }
 
     @Override
-    protected int getIndex(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         Resume key = new Resume(uuid);
         return Arrays.binarySearch(storage, 0, size, key); // if no key found, return future position of key with negative sign
     }

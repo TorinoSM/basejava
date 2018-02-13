@@ -9,16 +9,14 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     protected void insertElement(Resume resume, int index) { // index is used only for method's signature match
         storage[size] = resume;
-        size++;
     }
 
-    protected void deleteElement(int index) { // предполагаем, что null-элементов в массиве быть не может
+    protected void deleteElementOfArray(int index) { // предполагаем, что null-элементов в массиве быть не может
         storage[index] = storage[size - 1]; // move the last element into position of the deleted one
         storage[size - 1] = null;
-        size--;
     }
 
-    protected int getIndex(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) return i;
         }

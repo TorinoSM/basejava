@@ -1,7 +1,5 @@
 package com.home.webapp.storage;
 
-import com.home.webapp.exception.IllegalArgumentException;
-import com.home.webapp.exception.NotExistStorageException;
 import com.home.webapp.exception.StorageException;
 import com.home.webapp.model.Resume;
 
@@ -13,13 +11,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected int size = 0;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
 
-
-    protected void checkStorageOverflow(Resume r) {
-        if (size >= STORAGE_LIMIT) {
-            throw new StorageException("Error: Save: Can't save resume: reached maximum capacity of the storage (" + STORAGE_LIMIT + " records)", r.getUuid());
-        }
-    }
-
     public int size() {
         return size;
     }
@@ -29,12 +20,30 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-    protected void updateElement(Resume updatedResume, int index) {
-        storage[index] = updatedResume;
+    @Override
+    protected void updateElement(Resume updatedResume, Object index) {
+        storage[(Integer) index] = updatedResume;
     }
 
-    protected Resume getElement(int index){
-        return storage[index];
+    @Override
+    protected void deleteElement(Object index) {
+        deleteElementOfArray((Integer) index);
+        storage[size - 1] = null;
+        size--;
+    }
+
+    @Override
+    protected void saveElement(Resume resume, Object index) {
+        if (size >= STORAGE_LIMIT) {
+            throw new StorageException("Error: Save: Can't save resume: reached maximum capacity of the storage (" + STORAGE_LIMIT + " records)", resume.getUuid());
+        }
+        insertElement(resume, (Integer) index);
+        size++;
+    }
+
+    @Override
+    protected Resume getElement(Object index) {
+        return storage[(Integer) index];
     }
 
     /**
@@ -44,11 +53,16 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
-    protected abstract int getIndex(String uuid);
+    @Override
+    protected boolean isExist(Object index) {
+        return (Integer) index >= 0;
+    }
+
+    protected abstract Integer getSearchKey(String uuid);
 
     protected abstract void insertElement(Resume resume, int index);
 
-    protected abstract void deleteElement(int index);
+    protected abstract void deleteElementOfArray(int index);
 
 
 }

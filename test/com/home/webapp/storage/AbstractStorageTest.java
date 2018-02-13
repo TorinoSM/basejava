@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public abstract class AbstractArrayStorageTest {
+public abstract class AbstractStorageTest {
 
     private Resume ruuid1 = new Resume("uuid1");
     private Resume ruuid2 = new Resume("uuid2");
@@ -20,7 +20,7 @@ public abstract class AbstractArrayStorageTest {
     private Resume ruuid5 = new Resume("uuid5");
     private Storage storage;
 
-    protected AbstractArrayStorageTest(Storage storage) {
+    protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 

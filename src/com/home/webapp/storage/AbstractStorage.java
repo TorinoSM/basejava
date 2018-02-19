@@ -5,7 +5,16 @@ import com.home.webapp.exception.IllegalArgumentException;
 import com.home.webapp.exception.NotExistStorageException;
 import com.home.webapp.model.Resume;
 
+import java.util.Comparator;
+
 public abstract class AbstractStorage implements Storage {
+
+    Comparator<Resume> comparator = new Comparator<Resume>() {
+        @Override
+        public int compare(Resume o1, Resume o2) {
+            return o1.compareTo(o2);
+        }
+    };
 
     protected abstract Resume getElement(Object searchKey);
 

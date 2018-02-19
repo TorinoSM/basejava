@@ -3,7 +3,10 @@ package com.home.webapp.storage;
 import com.home.webapp.exception.StorageException;
 import com.home.webapp.model.Resume;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
@@ -18,6 +21,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
+    }
+
+    @Override
+    public List<Resume> getAllSorted() {
+        List<Resume> sortedList = new ArrayList<>(Arrays.asList(storage));
+        sortedList.sort(comparator);
+        return sortedList;
     }
 
     @Override
@@ -49,6 +59,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
+
+
     public Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
     }

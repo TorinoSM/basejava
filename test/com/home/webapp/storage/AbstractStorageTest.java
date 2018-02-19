@@ -3,7 +3,6 @@ package com.home.webapp.storage;
 import com.home.webapp.exception.ExistStorageException;
 import com.home.webapp.exception.IllegalArgumentException;
 import com.home.webapp.exception.NotExistStorageException;
-import com.home.webapp.exception.StorageException;
 import com.home.webapp.model.Resume;
 import org.junit.After;
 import org.junit.Assert;
@@ -18,9 +17,9 @@ public abstract class AbstractStorageTest {
     private Resume ruuid3 = new Resume("uuid3");
     private Resume ruuid4 = new Resume("uuid4");
     private Resume ruuid5 = new Resume("uuid5");
-    private Storage storage;
+    Storage storage;
 
-    protected AbstractStorageTest(Storage storage) {
+    AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -59,17 +58,6 @@ public abstract class AbstractStorageTest {
         storage.save(null);
     }
 
-    @Test(expected = StorageException.class)
-    public void saveStorageOverflow() throws Exception {
-        try {
-            for (int i = storage.size(); i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume(String.valueOf(i + 1)));
-            }
-        } catch (Exception e) {  // любое checked исключение
-            Assert.fail();
-        }
-        storage.save(new Resume("one_more_resume"));
-    }
 
     @Test(expected = NotExistStorageException.class)
     public void deleteNotExist() throws Exception {
@@ -130,7 +118,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test()
-    public void getAll() throws Exception {
+    public void getAllSorted() throws Exception {
 
         Assert.assertEquals(ruuid1, storage.get("uuid1"));
         Assert.assertEquals(ruuid2, storage.get("uuid2"));

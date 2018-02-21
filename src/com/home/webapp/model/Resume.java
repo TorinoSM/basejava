@@ -1,23 +1,20 @@
 package com.home.webapp.model;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Resume implements Comparable<Resume> {
 
     private final String uuid;
-    private String fullName;
+    private final String fullName;
 
     public Resume(String uuid, String fullName) {
-        this.uuid = uuid;
-        this.fullName = fullName;
+        this.uuid = Objects.requireNonNull(uuid, "uuid can not be null");
+        this.fullName = Objects.requireNonNull(fullName, "fullName can not be null");
     }
 
-    public Resume(String uuid) {
-        this(uuid, "");
-    }
-
-    public Resume() {
-        this(UUID.randomUUID().toString(), "");
+    public Resume(String fullName) {
+        this(UUID.randomUUID().toString(), fullName);
     }
 
     public String getFullName() {
@@ -28,13 +25,19 @@ public class Resume implements Comparable<Resume> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Resume resume = (Resume) o;
-        return this.fullName.equals(resume.fullName);
+
+        if (!uuid.equals(resume.uuid)) return false;
+        return fullName.equals(resume.fullName);
+
     }
 
     @Override
     public int hashCode() {
-        return uuid.hashCode();
+        int result = uuid.hashCode();
+        result = 31 * result + fullName.hashCode();
+        return result;
     }
 
     public String getUuid() {
@@ -43,7 +46,7 @@ public class Resume implements Comparable<Resume> {
 
     @Override
     public String toString() {
-        return "Resume{uuid=" + uuid + ",fullName=" + (fullName.equals("") ? "\"\"" : fullName) + "}";
+        return "resume{uuid = " + uuid + ", fullName = " + (fullName.equals("") ? "\"\"" : fullName) + '}';
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.home.webapp.model.Resume;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
@@ -23,12 +22,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-    @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> sortedList = new ArrayList<>(Arrays.asList(storage));
-        sortedList.sort(comparator);
-        return sortedList;
-    }
 
     @Override
     protected void updateElement(Resume updatedResume, Object index) {
@@ -60,9 +53,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
      * @return array, contains only Resumes in storage (without null)
      */
 
-
-    public Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, size);
+    @Override
+    public List<Resume> getResumesArrayCopy() {
+        return new ArrayList<>(Arrays.asList(Arrays.copyOfRange(storage, 0, size)));
     }
 
     @Override

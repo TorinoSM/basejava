@@ -6,15 +6,25 @@ import com.home.webapp.exception.NotExistStorageException;
 import com.home.webapp.model.Resume;
 
 import java.util.Comparator;
+import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
 
-    Comparator<Resume> comparator = new Comparator<Resume>() {
-        @Override
-        public int compare(Resume o1, Resume o2) {
-            return o1.compareTo(o2);
-        }
-    };
+
+    public List<Resume> getAllSorted() {
+        List<Resume> sortedList = getResumesArrayCopy();
+        sortedList.sort(new Comparator<Resume>() {
+            @Override
+            public int compare(Resume o1, Resume o2) {
+                int comparator = o1.getFullName().compareTo(o2.getFullName());
+                if (comparator == 0) return o1.getUuid().compareTo(o2.getUuid());
+                return comparator;
+            }
+        });
+        return sortedList;
+    }
+
+    protected abstract List<Resume> getResumesArrayCopy();
 
     protected abstract Resume getElement(Object searchKey);
 
@@ -35,7 +45,7 @@ public abstract class AbstractStorage implements Storage {
 
         String uuid = resume.getUuid();
         Object searchKey = getSearchKeyIfNotExist(uuid);
-        System.out.println("Success: Save: Saved new resume with uuid = \"" + uuid + "\"");
+        System.out.println("Saved " + resume.toString());
         saveElement(resume, searchKey);
     }
 
@@ -47,7 +57,7 @@ public abstract class AbstractStorage implements Storage {
 
         String uuid = updatedResume.getUuid();
         Object searchKey = getSearchKeyIfExist(uuid);
-        System.out.println("Success: Update: Resume with uuid = \"" + uuid + "\" is updated");
+        System.out.println("Updated " + updatedResume.toString());
         updateElement(updatedResume, searchKey);
     }
 
@@ -58,7 +68,7 @@ public abstract class AbstractStorage implements Storage {
         }
 
         Object searchKey = getSearchKeyIfExist(uuid);
-        System.out.println("Success: Delete: Deleted resume with uuid = \"" + uuid + "\"");
+        System.out.println("Deleted resume{uuid = " + uuid + '}');
         deleteElement(searchKey);
     }
 
@@ -69,7 +79,7 @@ public abstract class AbstractStorage implements Storage {
         }
 
         Object searchKey = getSearchKeyIfExist(uuid);
-        System.out.println("Success: Get: Found resume with uuid = \"" + uuid + "\"");
+        System.out.println("Got resume{uuid = " + uuid + '}');
         return getElement(searchKey);
     }
 

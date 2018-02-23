@@ -17,7 +17,7 @@ public abstract class AbstractStorage implements Storage {
             @Override
             public int compare(Resume o1, Resume o2) {
                 int comparator = o1.getFullName().compareTo(o2.getFullName());
-                if (comparator == 0) return o1.getUuid().compareTo(o2.getUuid());
+                if (comparator == 0) return o1.getUuid().compareTo(o2.getUuid()); // если fullName одинаковые то сортируем по uuid
                 return comparator;
             }
         });

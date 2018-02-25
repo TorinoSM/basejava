@@ -32,4 +32,16 @@ public class Column {
         subSection.setColumnsCount(columnsCount + 1); // увеличиваем количество колонок в подсекции
     }
 
+    public Integer getColumnNumber() {
+        return columnNumber;
+    }
+
+    public Section getSection() {
+        return section;
+    }
+
+    public SubSection getSubSection() {
+        return subSection;
+    }
+
 }

@@ -8,24 +8,24 @@ public class Section {
     private Integer subSectionsCount;
     // резюме, к которому прикреплена секция
     private Resume resume;
-    // тип секции, которому соответствует секция
-    private SectionEnum sectionEnum;
+    // тип секции
+    private SectionType sectionType;
 
-    public Section(Resume resume, SectionEnum sectionEnum) {
+    public Section(Resume resume, SectionType sectionType) {
         if (resume == null) {
             System.out.println("you must specify a valid Resume");
             return;
         }
         this.resume = resume; // связываем секцию с конкретным резюме
-        this.sectionEnum = sectionEnum; // связываем секцию с конкретным типом секции
+        this.sectionType = sectionType; // связываем секцию с конкретным типом секции
     }
 
     public Resume getResume() {
         return resume;
     }
 
-    public SectionEnum getSectionEnum() {
-        return sectionEnum;
+    public SectionType getSectionType() {
+        return sectionType;
     }
 
     public Integer getColumnsCount() {

@@ -1,6 +1,6 @@
 package com.home.webapp.model;
 
-public enum SectionEnum {
+public enum SectionType {
     PERSONAL("ФИО"),
     OBJECTIVE("Цели"),
     ACHIEVEMENT("Достижения"),
@@ -10,7 +10,7 @@ public enum SectionEnum {
 
     private String title;
 
-    SectionEnum(String title) {
+    SectionType(String title) {
         this.title = title;
     }
 

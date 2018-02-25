@@ -9,6 +9,8 @@ public class Column {
     private Section section;
     // Подсекция  с которой связана колонка
     private SubSection subSection;
+    // количество абзацев в колонке
+    private Integer paragraphsCount;
 
     public Column(Section section) {
         if (section == null) {
@@ -30,6 +32,14 @@ public class Column {
         Integer columnsCount = subSection.getColumnsCount(); // берем количество колонок в подсекции
         columnNumber = columnsCount + 1; // устанавливаем номер колонки
         subSection.setColumnsCount(columnsCount + 1); // увеличиваем количество колонок в подсекции
+    }
+
+    public Integer getParagraphsCount() {
+        return paragraphsCount;
+    }
+
+    public void setParagraphsCount(Integer paragraphsCount) {
+        this.paragraphsCount = paragraphsCount;
     }
 
     public Integer getColumnNumber() {

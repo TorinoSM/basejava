@@ -7,9 +7,12 @@ import com.home.webapp.model.Resume;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 
 public abstract class AbstractStorage<T> implements Storage {
 // <T> is a mapping of searchKey Object type into concrete type in sub-classes
+
+    private static final Logger log = Logger.getLogger(AbstractStorage.class.getName());
 
     public List<Resume> getAllSorted() {
         List<Resume> sortedList = getResumesArrayCopy();
@@ -17,7 +20,8 @@ public abstract class AbstractStorage<T> implements Storage {
             @Override
             public int compare(Resume o1, Resume o2) {
                 int comparator = o1.getFullName().compareTo(o2.getFullName());
-                if (comparator == 0) return o1.getUuid().compareTo(o2.getUuid()); // если fullName одинаковые то сортируем по uuid
+                if (comparator == 0)
+                    return o1.getUuid().compareTo(o2.getUuid()); // если fullName одинаковые то сортируем по uuid
                 return comparator;
             }
         });
@@ -39,47 +43,52 @@ public abstract class AbstractStorage<T> implements Storage {
     protected abstract boolean isExist(T searchKey);
 
     public void save(Resume resume) {
-        if (resume == null) {
-            throw new IllegalArgumentException();
-        }
 
+        checkForResumeIsNotNull(resume);
         String uuid = resume.getUuid();
         T searchKey = getSearchKeyIfNotExist(uuid);
-        System.out.println("Saved " + resume.toString());
         saveElement(resume, searchKey);
+        log.info("Saved " + resume.toString());
     }
 
 
     public void update(Resume updatedResume) {
-        if (updatedResume == null) {
-            throw new IllegalArgumentException();
-        }
 
+        checkForResumeIsNotNull(updatedResume);
         String uuid = updatedResume.getUuid();
         T searchKey = getSearchKeyIfExist(uuid);
-        System.out.println("Updated " + updatedResume.toString());
         updateElement(updatedResume, searchKey);
+        log.info("Updated " + updatedResume.toString());
     }
 
-
-    public void delete(String uuid) {
-        if ("".equals(uuid)) {
+    private void checkForUuidIsNotEmpty(String uuid) {
+        if (uuid == null || uuid.isEmpty()) {
+            log.warning("Error: Method argument is not valid");
             throw new IllegalArgumentException();
         }
+    }
 
+    private void checkForResumeIsNotNull(Resume resume) {
+        if (resume == null) {
+            log.warning("Method argument is not valid");
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public void delete(String uuid) {
+
+        checkForUuidIsNotEmpty(uuid);
         T searchKey = getSearchKeyIfExist(uuid);
-        System.out.println("Deleted resume{uuid = " + uuid + '}');
         deleteElement(searchKey);
+        log.info("Deleted resume{uuid = " + uuid + '}');
     }
 
 
     public Resume get(String uuid) {
-        if ("".equals(uuid)) {
-            throw new IllegalArgumentException();
-        }
 
+        checkForUuidIsNotEmpty(uuid);
         T searchKey = getSearchKeyIfExist(uuid);
-        System.out.println("Got resume{uuid = " + uuid + '}');
+        log.info("Got resume{uuid = " + uuid + '}');
         return getElement(searchKey);
     }
 

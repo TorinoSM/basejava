@@ -8,8 +8,8 @@ import com.home.webapp.model.Resume;
 import java.util.Comparator;
 import java.util.List;
 
-public abstract class AbstractStorage implements Storage {
-
+public abstract class AbstractStorage<T> implements Storage {
+// <T> is a mapping of searchKey Object type into concrete type in sub-classes
 
     public List<Resume> getAllSorted() {
         List<Resume> sortedList = getResumesArrayCopy();
@@ -26,17 +26,17 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract List<Resume> getResumesArrayCopy();
 
-    protected abstract Resume getElement(Object searchKey);
+    protected abstract Resume getElement(T searchKey);
 
-    protected abstract void deleteElement(Object searchKey);
+    protected abstract void deleteElement(T searchKey);
 
-    protected abstract void updateElement(Resume updatedResume, Object searchKey);
+    protected abstract void updateElement(Resume updatedResume, T searchKey);
 
-    protected abstract Object getSearchKey(String uuid);
+    protected abstract T getSearchKey(String uuid);
 
-    protected abstract void saveElement(Resume resume, Object searchKey);
+    protected abstract void saveElement(Resume resume, T searchKey);
 
-    protected abstract boolean isExist(Object searchKey);
+    protected abstract boolean isExist(T searchKey);
 
     public void save(Resume resume) {
         if (resume == null) {
@@ -44,7 +44,7 @@ public abstract class AbstractStorage implements Storage {
         }
 
         String uuid = resume.getUuid();
-        Object searchKey = getSearchKeyIfNotExist(uuid);
+        T searchKey = getSearchKeyIfNotExist(uuid);
         System.out.println("Saved " + resume.toString());
         saveElement(resume, searchKey);
     }
@@ -56,7 +56,7 @@ public abstract class AbstractStorage implements Storage {
         }
 
         String uuid = updatedResume.getUuid();
-        Object searchKey = getSearchKeyIfExist(uuid);
+        T searchKey = getSearchKeyIfExist(uuid);
         System.out.println("Updated " + updatedResume.toString());
         updateElement(updatedResume, searchKey);
     }
@@ -67,7 +67,7 @@ public abstract class AbstractStorage implements Storage {
             throw new IllegalArgumentException();
         }
 
-        Object searchKey = getSearchKeyIfExist(uuid);
+        T searchKey = getSearchKeyIfExist(uuid);
         System.out.println("Deleted resume{uuid = " + uuid + '}');
         deleteElement(searchKey);
     }
@@ -78,22 +78,22 @@ public abstract class AbstractStorage implements Storage {
             throw new IllegalArgumentException();
         }
 
-        Object searchKey = getSearchKeyIfExist(uuid);
+        T searchKey = getSearchKeyIfExist(uuid);
         System.out.println("Got resume{uuid = " + uuid + '}');
         return getElement(searchKey);
     }
 
 
-    private Object getSearchKeyIfExist(String uuid) {
-        Object searchKey = getSearchKey(uuid);
+    private T getSearchKeyIfExist(String uuid) {
+        T searchKey = getSearchKey(uuid);
         if (!isExist(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
         return searchKey;
     }
 
-    private Object getSearchKeyIfNotExist(String uuid) {
-        Object searchKey = getSearchKey(uuid);
+    private T getSearchKeyIfNotExist(String uuid) {
+        T searchKey = getSearchKey(uuid);
         if (isExist(searchKey)) {
             throw new ExistStorageException(uuid);
         }

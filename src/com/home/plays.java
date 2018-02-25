@@ -34,6 +34,23 @@ public class plays {
             String s = i.toString();
             System.out.println(s);
             Pair pair;
+
+            Singleton singleton = Singleton.getInstance("");
         }
+    }
+}
+
+class Singleton {
+
+    private static Singleton instance;
+    private String var;
+
+    private Singleton(String var) {
+        this.var = var;
+    }
+
+    public static Singleton getInstance(String var) {
+        if (instance != null) instance = new Singleton(var);
+        return instance;
     }
 }

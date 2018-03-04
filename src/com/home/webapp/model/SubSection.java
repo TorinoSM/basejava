@@ -1,41 +1,35 @@
 package com.home.webapp.model;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class SubSection {
 
-    // Номер подсекции
-    private Integer subSectionNumber;
-    // Секция  с которой связана колонка
-    private Section section;
-    // количество колонок в подсекции
-    private Integer columnsCount;
+    // мультиколонные записи
+    private List<Row> records = new ArrayList<>();
+    // первая строка подсекции
+    private Row subSectionContent = new Row();
 
-    public SubSection(Section section) {
-        if (section == null) {
-            System.out.println("you must specify a valid Section");
-            return;
-        }
-        this.section = section; // связываем подсекцию с конкретной секцией
-        Integer subSectionsCount = section.getSubSectionsCount(); // берем количество подсекций в секции
-        subSectionNumber = subSectionsCount + 1; // устанавливаем номер подсекции
-        section.setColumnsCount(subSectionsCount + 1); // увеличиваем количество подсекций в секции
+    // извлекаем текст первой строки подсекции
+    public String getTitle() {
+        return subSectionContent.getContent();
     }
 
-    public Integer getSubSectionNumber() {
-        return subSectionNumber;
+    // устанавливаем текст первой строки подсекции
+    public void setTitle(String content) {
+        subSectionContent.setContent(content);
     }
 
-    public Section getSection() {
-        return section;
+    public List<Row> getRecords() {
+        return records;
     }
 
-    public Integer getColumnsCount() {
-        return columnsCount;
+    public Row addRecord(Integer columnsCount) {
+        Row newRow = new Row(columnsCount);
+        records.add(newRow);
+        return newRow;
     }
-
-    public void setColumnsCount(Integer columnsCount) {
-        this.columnsCount = columnsCount;
-    }
-
-
 }
+
+
+

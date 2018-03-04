@@ -1,48 +1,54 @@
 package com.home.webapp.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Section {
 
-    // количество колонок в секции
-    private Integer columnsCount;
-    // количество подсекций в секции (если есть)
-    private Integer subSectionsCount;
-    // резюме, к которому прикреплена секция
-    private Resume resume;
+    private List<Row> rows = new ArrayList<>(); // лист простых строк
+    private List<SubSection> subSections = new ArrayList<>(); // лист подсекций
     // тип секции
     private SectionType sectionType;
+    // печатаемый заголовок секции
+    private String title;
 
-    public Section(Resume resume, SectionType sectionType) {
-        if (resume == null) {
-            System.out.println("you must specify a valid Resume");
-            return;
-        }
-        this.resume = resume; // связываем секцию с конкретным резюме
-        this.sectionType = sectionType; // связываем секцию с конкретным типом секции
+    public Section(SectionType sectionType) {
+        this.sectionType = sectionType;
     }
 
-    public Resume getResume() {
-        return resume;
+    public List<Row> getRows() {
+        return rows;
+    }
+
+    public List<SubSection> getSubSections() {
+        return subSections;
     }
 
     public SectionType getSectionType() {
         return sectionType;
     }
 
-    public Integer getColumnsCount() {
-        return columnsCount;
+    public void setSectionType(SectionType sectionType) {
+        this.sectionType = sectionType;
     }
 
-    public void setColumnsCount(Integer columnsCount) {
-        this.columnsCount = columnsCount;
+    public String getTitle() {
+        return title;
     }
 
-    public Integer getSubSectionsCount() {
-        return subSectionsCount;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setSubSectionsCount(Integer subSectionsCount) {
-        this.subSectionsCount = subSectionsCount;
+    public Row addRow() {
+        Row newRow = new Row();
+        rows.add(newRow);
+        return newRow;
     }
 
-
+    public SubSection addSubSection() {
+        SubSection newSubSection = new SubSection();
+        subSections.add(newSubSection);
+        return newSubSection;
+    }
 }

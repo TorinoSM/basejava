@@ -1,0 +1,49 @@
+{
+"Section":{
+ "SectionType":"PERSONAL"
+}
+}
+
+
+
+<Resume>
+
+<Section type="PERSONAL">
+<Column></Column>
+</Section>
+
+<Section type="OBJECTIVE">
+<Column></Column>
+</Section>
+
+<Section type="ACHIEVEMENT">
+<Column></Column>
+</Section>
+
+<Section type="QUALIFICATIONS">
+<Column></Column>
+</Section>
+
+<Section type="EXPERIENCE">
+<SubSection>
+<Column></Column>
+</SubSection>
+
+<SubSection>
+<Column></Column>
+<Column></Column>
+</SubSection>
+</Section>
+
+<Section type="EDUCATION">
+<SubSection>
+<Column></Column>
+</SubSection>
+
+<SubSection>
+<Column></Column>
+<Column></Column>
+</SubSection>
+</Section>
+
+</Resume>

@@ -2,7 +2,6 @@ package com.home.webapp.model;
 
 public enum SectionType {
 
-    TITLE("ФИО и контакты"),
     PERSONAL("Личные качества"),
     OBJECTIVE("Цели"),
     ACHIEVEMENT("Достижения"),

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     protected static final int STORAGE_LIMIT = 10000;
     protected int size = 0;
@@ -24,43 +24,39 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
 
     @Override
-    protected void updateElement(Resume updatedResume, Object index) {
-        storage[(Integer) index] = updatedResume;
+    protected void updateElement(Resume updatedResume, Integer index) {
+        storage[index] = updatedResume;
     }
 
     @Override
-    protected void deleteElement(Object index) {
-        deleteElementOfArray((Integer) index);
+    protected void deleteElement(Integer index) {
+        deleteElementOfArray(index);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    protected void saveElement(Resume resume, Object index) {
+    protected void saveElement(Resume resume, Integer index) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Error: Save: Can't save resume: reached maximum capacity of the storage (" + STORAGE_LIMIT + " records)", resume.getUuid());
         }
-        insertElement(resume, (Integer) index);
+        insertElement(resume, index);
         size++;
     }
 
     @Override
-    protected Resume getElement(Object index) {
-        return storage[(Integer) index];
+    protected Resume getElement(Integer index) {
+        return storage[index];
     }
 
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
-
     @Override
-    public List<Resume> getResumesArrayCopy() {
+    public List<Resume> getResumesList() {
         return new ArrayList<>(Arrays.asList(Arrays.copyOfRange(storage, 0, size)));
     }
 
     @Override
-    protected boolean isExist(Object index) {
-        return (Integer) index >= 0;
+    protected boolean isExist(Integer index) {
+        return index >= 0;
     }
 
     protected abstract Integer getSearchKey(String uuid);

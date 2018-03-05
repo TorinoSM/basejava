@@ -2,52 +2,61 @@ package com.home.webapp;
 
 import com.home.webapp.model.*;
 
-import java.util.HashMap;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-import static com.home.webapp.model.SectionType.EDUCATION;
-import static com.home.webapp.model.SectionType.TITLE;
+import static com.home.webapp.model.SectionType.*;
 
 public class CreateResume {
 
     public static void main(String[] args) {
+        Resume r = new Resume("Кислин Григорий");
 
-        Resume k = new Resume("Кислин Григорий");
+        r.getContacts().put(ContactType.MOBILE, "+7(921) 855-0482");
 
-        HashMap<SectionType, Section> sections = k.getSections();
+        r.getSections().put(PERSONAL, new TextSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
 
-        // заполняем секцию ФИО + Контакты
-        Section TITLE_section = sections.get(TITLE);
-        Row TITLE_row_1 = TITLE_section.addRow();
-        TITLE_row_1.setContent("Тел.: +7(921) 855-0482");
-        Row TITLE_row_2 = TITLE_section.addRow();
-        TITLE_row_2.setContent("Skype: grigory.kislin");
 
-        // заполняем секцию Образование
-        Section EDUCATION_section = sections.get(EDUCATION);
+        List<String> initAchiev = new ArrayList<>();
+        initAchiev.add("С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", \"Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)\". Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.");
+        initAchiev.add("Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.");
 
-        ////////////////////////////
+        r.getSections().put(ACHIEVEMENT, new ListSection(initAchiev));
 
-        SubSection EDUCATION_subSection_1 = EDUCATION_section.addSubSection();
-        EDUCATION_subSection_1.setTitle("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики");
 
-        Row EDUCATION_row_1 = EDUCATION_subSection_1.addRecord(2);
-        EDUCATION_row_1.getCell(0).setContent("09/1993 - 07/1996");
-        EDUCATION_row_1.getCell(1).setContent("Аспирантура (программист С, С++)");
+        List<Organization> orgs = new ArrayList<>();
+        Organization org = new Organization(
+                "Java Online Projects",
+                "http://javaops.ru/",
+                LocalDate.of(2013, 10, 1),
+                LocalDate.now(),
+                "Автор проекта.",
+                "Создание, организация и проведение Java онлайн проектов и стажировок.");
+        orgs.add(org);
 
-        Row EDUCATION_row_2 = EDUCATION_subSection_1.addRecord(2);
-        EDUCATION_row_2.getCell(0).setContent("09/1987 - 07/1993");
-        EDUCATION_row_2.getCell(1).setContent("Инженер (программист Fortran, C)");
+        r.getSections().put(EXPERIENCE, new OrganizationSection(orgs));
 
-        //////////////////////////////
 
-        SubSection EDUCATION_subSection_2 = EDUCATION_section.addSubSection();
-        EDUCATION_subSection_2.setTitle("Заочная физико-техническая школа при МФТИ");
+        List<Organization> schools = new ArrayList<>();
+        Organization school = new Organization(
+                "Java Online Projects",
+                "http://javaops.ru/",
+                LocalDate.of(2013, 10, 1),
+                LocalDate.now(),
+                "Автор проекта.",
+                "Создание, организация и проведение Java онлайн проектов и стажировок.");
+        schools.add(school);
 
-        Row EDUCATION_row_2_1 = EDUCATION_subSection_2.addRecord(2);
-        EDUCATION_row_2_1.getCell(0).setContent("09/1984 - 06/1987");
-        EDUCATION_row_2_1.getCell(1).setContent("Закончил с отличием");
+        r.getSections().put(EDUCATION, new OrganizationSection(schools));
+        school.addRecord(
+                LocalDate.of(1987, 9, 1),
+                LocalDate.of(1993, 7, 1),
+                "Инженер (программист Fortran, C)"
+        );
 
-        System.out.println();
+        System.out.println(r);
+
 
     }
 }

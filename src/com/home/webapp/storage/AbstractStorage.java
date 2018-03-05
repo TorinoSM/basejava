@@ -1,7 +1,6 @@
 package com.home.webapp.storage;
 
 import com.home.webapp.exception.ExistStorageException;
-import com.home.webapp.exception.IllegalArgumentException;
 import com.home.webapp.exception.NotExistStorageException;
 import com.home.webapp.model.Resume;
 
@@ -15,7 +14,7 @@ public abstract class AbstractStorage<T> implements Storage {
     private static final Logger log = Logger.getLogger(AbstractStorage.class.getName());
 
     public List<Resume> getAllSorted() {
-        List<Resume> sortedList = getResumesArrayCopy();
+        List<Resume> sortedList = getResumesList();
         sortedList.sort(new Comparator<Resume>() {
             @Override
             public int compare(Resume o1, Resume o2) {
@@ -28,7 +27,7 @@ public abstract class AbstractStorage<T> implements Storage {
         return sortedList;
     }
 
-    protected abstract List<Resume> getResumesArrayCopy();
+    protected abstract List<Resume> getResumesList();
 
     protected abstract Resume getElement(T searchKey);
 

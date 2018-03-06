@@ -6,6 +6,7 @@ import com.home.webapp.model.Resume;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,40 +27,53 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     protected abstract void doWrite(Resume resume, File file) throws IOException;
 
-    protected abstract Resume doRead(File file);
+    protected abstract Resume doRead(File file) throws IOException;
 
     @Override
     public void clear() {
+        if (directory == null || !directory.isDirectory()) throw new StorageException("Can not clear directory", "");
         File[] files = directory.listFiles();
         for (File file : files) {
-            file.delete();
+            deleteElement(file);
         }
     }
 
     @Override
     public int size() {
+        if (directory == null || !directory.isDirectory()) throw new StorageException("Can not get directory size", "");
         File[] files = directory.listFiles();
         return files.length;
     }
 
     @Override
     protected List<Resume> getResumesList() {
-        List resumesList = new ArrayList();
+        List<Resume> resumesList = new ArrayList<>();
+        if (directory == null || !directory.isDirectory()) return Collections.EMPTY_LIST;
         File[] files = directory.listFiles();
         for (File file : files) {
-            resumesList.add(doRead(file));
+            if (file.isFile() && file.canRead()) {
+                try {
+                    resumesList.add(doRead(file));
+                } catch (IOException e) {
+                    throw new StorageException("IO error while processing " + file.getName(), file.getName(), e);
+                }
+            }
         }
         return resumesList;
     }
 
     @Override
     protected Resume getElement(File file) {
-        return doRead(file);
+        try {
+            return doRead(file);
+        } catch (IOException e) {
+            throw new StorageException("IO error while processing " + file.getName(), file.getName(), e);
+        }
     }
 
     @Override
     protected void deleteElement(File file) {
-        file.delete();
+        if (!file.delete()) throw new StorageException("Can not delete entity " + file.getName(), file.getName());
     }
 
     @Override
@@ -67,22 +81,24 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         try {
             doWrite(updatedResume, file);
         } catch (IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("IO error while processing " + file.getName(), file.getName(), e);
         }
     }
 
     @Override
     protected File getSearchKey(String uuid) {
+        if (directory == null || !directory.isDirectory()) throw new StorageException("IO Error", "");
         return new File(directory, uuid);
     }
 
     @Override
     protected void saveElement(Resume resume, File file) {
         try {
-            file.createNewFile();
-            doWrite(resume, file);
+            if (file.createNewFile()) {
+                updateElement(resume, file);
+            } else throw new StorageException("File " + file.getName() + " already exists", file.getName());
         } catch (IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("IO error while processing " + file.getName(), file.getName(), e);
         }
     }
 

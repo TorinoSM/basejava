@@ -6,13 +6,13 @@ public class Record {
 
     private final LocalDate startDate;
     private final LocalDate endtDate;
-    private final String description;
+    private final String title;
 
 
-    public Record(LocalDate startDate, LocalDate endtDate, String description) {
+    public Record(LocalDate startDate, LocalDate endtDate, String title) {
         this.startDate = startDate;
         this.endtDate = endtDate;
-        this.description = description;
+        this.title = title;
     }
 
     @Override
@@ -20,7 +20,7 @@ public class Record {
         return "Record{" +
                 "startDate=" + startDate +
                 ", endtDate=" + endtDate +
-                ", description='" + description + '\'' +
+                ", title='" + title + '\'' +
                 '}';
     }
 
@@ -33,7 +33,7 @@ public class Record {
 
         if (!startDate.equals(record.startDate)) return false;
         if (!endtDate.equals(record.endtDate)) return false;
-        return description.equals(record.description);
+        return title.equals(record.title);
 
     }
 
@@ -41,7 +41,7 @@ public class Record {
     public int hashCode() {
         int result = startDate.hashCode();
         result = 31 * result + endtDate.hashCode();
-        result = 31 * result + description.hashCode();
+        result = 31 * result + title.hashCode();
         return result;
     }
 
@@ -53,7 +53,7 @@ public class Record {
         return endtDate;
     }
 
-    public String getDescription() {
-        return description;
+    public String getTitle() {
+        return title;
     }
 }

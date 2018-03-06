@@ -16,7 +16,7 @@ public class MainFile {
             System.out.println("\t" + FSEntity.getName());
         }
         if (FSEntity.isDirectory()) {
-            System.out.println(FSEntity.getName());
+//            System.out.println(FSEntity.getName());
             File[] subEntities = FSEntity.listFiles();
             for (File subEntity : subEntities) {
                 drill(subEntity);

@@ -22,7 +22,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
         size = 0;
     }
 
-
     @Override
     protected void updateElement(Resume updatedResume, Integer index) {
         storage[index] = updatedResume;

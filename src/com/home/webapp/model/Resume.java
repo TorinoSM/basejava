@@ -13,9 +13,10 @@ public class Resume implements Comparable<Resume> {
     private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
 
     public Resume(String uuid, String fullName) {
-        this.uuid = Objects.requireNonNull(uuid, "uuid can not be null");
-        this.fullName = Objects.requireNonNull(fullName, "fullName can not be null");
+        this.uuid = Objects.requireNonNull(uuid, "Uuid argument can not be null");
+        this.fullName = Objects.requireNonNull(fullName, "FullName argument can not be null");
     }
+
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
     }
@@ -30,6 +31,14 @@ public class Resume implements Comparable<Resume> {
 
     public String getContact(ContactType type) {
         return contacts.get(type);
+    }
+
+    public void addContact(ContactType type, String value) {
+        contacts.put(type, value);
+    }
+
+    public void addSection(SectionType type, Section section) {
+        sections.put(type, section);
     }
 
     public Section getSection(SectionType type) {
@@ -49,7 +58,6 @@ public class Resume implements Comparable<Resume> {
 
         if (!uuid.equals(resume.uuid)) return false;
         return fullName.equals(resume.fullName);
-
     }
 
     @Override
@@ -65,7 +73,7 @@ public class Resume implements Comparable<Resume> {
 
     @Override
     public String toString() {
-        return "resume{uuid = " + uuid + ", fullName = " + (fullName.equals("") ? "\"\"" : fullName) + '}';
+        return "Resume{uuid = " + uuid + ", fullName = " + (fullName.equals("") ? "\"\"" : fullName) + '}';
     }
 
     @Override

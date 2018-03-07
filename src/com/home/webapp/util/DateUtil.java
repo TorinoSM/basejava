@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.Month;
 
 public class DateUtil {
-    public static LocalDate of(int year, Month month) {
+    public static LocalDate of(Integer year, Month month) {
         return LocalDate.of(year, month, 1);
     }
 }

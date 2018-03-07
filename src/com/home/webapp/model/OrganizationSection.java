@@ -1,5 +1,6 @@
 package com.home.webapp.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,6 +10,10 @@ public class OrganizationSection extends Section {
     public OrganizationSection(List<Organization> organizations) {
         Objects.requireNonNull(organizations, "Organizations argument must not be null");
         this.organizations = organizations;
+    }
+
+    public OrganizationSection(Organization... organizations) {
+        this(Arrays.asList(organizations));
     }
 
     @Override

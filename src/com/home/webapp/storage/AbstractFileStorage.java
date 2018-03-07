@@ -29,9 +29,13 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     protected abstract Resume doRead(File file) throws IOException;
 
+    private void checkDirectoryIsValid() {
+        if (directory == null || !directory.isDirectory()) throw new StorageException("Directory reference error", "");
+    }
+
     @Override
     public void clear() {
-        if (directory == null || !directory.isDirectory()) throw new StorageException("Can not clear directory", "");
+        checkDirectoryIsValid();
         File[] files = directory.listFiles();
         if (files == null) throw new StorageException("Can not clear directory", "");
         for (File file : files) {
@@ -41,7 +45,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public int size() {
-        if (directory == null || !directory.isDirectory()) throw new StorageException("Can not get directory size", "");
+        checkDirectoryIsValid();
         String[] files = directory.list();
         if (files == null) throw new StorageException("Can not get directory size", "");
         return files.length;
@@ -86,7 +90,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected File getSearchKey(String uuid) {
-        if (directory == null || !directory.isDirectory()) throw new StorageException("IO Error", "");
+        checkDirectoryIsValid();
         return new File(directory, uuid);
     }
 

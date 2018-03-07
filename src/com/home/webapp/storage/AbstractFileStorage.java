@@ -33,6 +33,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     public void clear() {
         if (directory == null || !directory.isDirectory()) throw new StorageException("Can not clear directory", "");
         File[] files = directory.listFiles();
+        if (files == null) throw new StorageException("Can not clear directory", "");
         for (File file : files) {
             deleteElement(file);
         }
@@ -41,22 +42,20 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     public int size() {
         if (directory == null || !directory.isDirectory()) throw new StorageException("Can not get directory size", "");
-        File[] files = directory.listFiles();
+        String[] files = directory.list();
+        if (files == null) throw new StorageException("Can not get directory size", "");
         return files.length;
     }
 
     @Override
     protected List<Resume> getResumesList() {
-        List<Resume> resumesList = new ArrayList<>();
         if (directory == null || !directory.isDirectory()) return Collections.EMPTY_LIST;
         File[] files = directory.listFiles();
+        if (files == null) throw new StorageException("Can not get directory content", "");
+        List<Resume> resumesList = new ArrayList<>();
         for (File file : files) {
             if (file.isFile() && file.canRead()) {
-                try {
-                    resumesList.add(doRead(file));
-                } catch (IOException e) {
-                    throw new StorageException("IO error while processing " + file.getName(), file.getName(), e);
-                }
+                resumesList.add(getElement(file));
             }
         }
         return resumesList;
@@ -100,6 +99,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         } catch (IOException e) {
             throw new StorageException("IO error while processing " + file.getName(), file.getName(), e);
         }
+
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +16,8 @@ import java.util.Map;
 
 
 public abstract class AbstractStorageTest {
+
+    protected static final File STORAGE_DIR = new File("C:\\Users\\name2015\\basejava\\storage");
 
     protected Storage storage;
     private Resume ruuid1 = new Resume("uuid1", "Григорий Кислин");

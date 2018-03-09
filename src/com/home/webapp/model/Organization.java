@@ -1,5 +1,6 @@
 package com.home.webapp.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
@@ -10,7 +11,8 @@ import java.util.Objects;
 
 import static com.home.webapp.util.DateUtil.of;
 
-public class Organization {
+public class Organization implements Serializable  {
+    private static final long serialVersionUID = 1L;
     private final Link organisation;
     private List<Record> records = new ArrayList<>();
 
@@ -60,7 +62,7 @@ public class Organization {
     }
 
 
-    public static class Record {
+    public static class Record implements Serializable {
 
         private final static LocalDate NOW = LocalDate.of(Year.MAX_VALUE, 1, 1);
         private final LocalDate startDate;

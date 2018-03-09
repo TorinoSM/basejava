@@ -3,8 +3,7 @@ package com.home.webapp.storage;
 import com.home.webapp.exception.StorageException;
 import com.home.webapp.model.Resume;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,9 +24,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         this.directory = directory;
     }
 
-    protected abstract void doWrite(Resume resume, File file) throws IOException;
+    protected abstract void doWrite(Resume resume, OutputStream outputStream) throws IOException;
 
-    protected abstract Resume doRead(File file) throws IOException;
+    protected abstract Resume doRead(InputStream inputStream) throws IOException;
 
     private void checkDirectoryIsValid() {
         if (directory == null || !directory.isDirectory()) throw new StorageException("Directory reference error", "");
@@ -68,7 +67,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected Resume getElement(File file) {
         try {
-            return doRead(file);
+            return doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("IO error while processing " + file.getName(), file.getName(), e);
         }
@@ -82,7 +81,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void updateElement(Resume updatedResume, File file) {
         try {
-            doWrite(updatedResume, file);
+            doWrite(updatedResume, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
             throw new StorageException("IO error while processing " + file.getName(), file.getName(), e);
         }

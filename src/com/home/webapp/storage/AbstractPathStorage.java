@@ -8,8 +8,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
@@ -33,7 +35,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         try {
             Files.list(directory).forEach(this::deleteElement);
         } catch (IOException e) {
-            throw new StorageException("Error listing directory", "", e);
+            throw new StorageException("Error clearing directory", "", e);
         }
     }
 
@@ -48,15 +50,22 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> getResumesList() {
-        List<Resume> resumesList = new ArrayList<>();
 
+        Stream<Path> pathStream;
         try {
-            Files.list(directory).filter(Files::isRegularFile).forEach(p -> resumesList.add(getElement(p)));
+            pathStream = Files.list(directory).filter(Files::isRegularFile); // стрим с path'ами к файлам в директории
+            if (pathStream.count() == 0) { // если файлов нет то возвращаем пустой лист
+                return Collections.emptyList();
+            }
         } catch (IOException e) {
             throw new StorageException("Can not get directory content", "", e);
         }
+        List<Resume> resumesList = new ArrayList<>();
+        pathStream.forEach(p -> resumesList.add(getElement(p)));
         return resumesList;
         // peek - возвращает ТОТ ЖЕ stream без изменений, просто применяет к каждому элементу функцию
+        // forEach не возвращает ничего
+        // см. параметры-интерфейсы: что и сколько принимает, что возвращает
     }
 
     @Override
@@ -71,9 +80,11 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected void deleteElement(Path path) {
         try {
-            Files.delete(path);
+            if (Files.isRegularFile(path)) {
+                Files.delete(path);
+            }
         } catch (IOException e) {
-            throw new StorageException("Can not delete entity " + path.toString(), path.toString(), e);
+            throw new StorageException("Can not delete file " + path.toString(), path.toString(), e);
         }
     }
 
@@ -88,7 +99,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected Path getSearchKey(String uuid) {
-        return Paths.get(uuid);
+        return Paths.get(uuid);  // ???????????????
     }
 
     @Override
@@ -103,6 +114,6 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected boolean isExist(Path path) {
-        return Files.exists(path);
+        return Files.isRegularFile(path) && Files.exists(path);
     }
 }

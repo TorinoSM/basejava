@@ -20,7 +20,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     public AbstractPathStorage(String dir) {
         directory = Paths.get(dir);
         Objects.requireNonNull(directory, "Directory argument must not be null");
-        if (!(Files.isDirectory(directory)) || Files.isWritable(directory)) {
+        if (!(Files.isDirectory(directory)) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException("Directory argument is not a valid directory or is not writable");
         }
     }
@@ -32,48 +32,35 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     public void clear() {
-        try {
-            Files.list(directory).forEach(this::deleteElement);
-        } catch (IOException e) {
-            throw new StorageException("Error clearing directory", "", e);
-        }
+        getPathsList().forEach(this::deleteElement);
     }
 
     @Override
     public int size() {
-        try {
-            return (int) Files.list(directory).filter(Files::isRegularFile).count(); // фильтруем список: к каждому элементу списка применяем метод isRegularFile класса Files, потом считаем количество просочившихся элементов (count возвращает long, поэтому кастим в int)
-        } catch (IOException e) {
-            throw new StorageException("Error listing directory", "", e);
-        }
+        return (int) getPathsList().filter(Files::isRegularFile).count(); // фильтруем список: к каждому элементу списка применяем метод isRegularFile класса Files, потом считаем количество просочившихся элементов (count возвращает long, поэтому кастим в int)
     }
 
     @Override
     protected List<Resume> getResumesList() {
-
-        Stream<Path> pathStream;
-        try {
-            pathStream = Files.list(directory).filter(Files::isRegularFile); // стрим с path'ами к файлам в директории
-            if (pathStream.count() == 0) { // если файлов нет то возвращаем пустой лист
-                return Collections.emptyList();
-            }
-        } catch (IOException e) {
-            throw new StorageException("Can not get directory content", "", e);
+        if (getPathsList().filter(Files::isRegularFile).count() == 0) { // если файлов нет то возвращаем пустой лист
+            return Collections.emptyList();
         }
         List<Resume> resumesList = new ArrayList<>();
-        pathStream.forEach(p -> resumesList.add(getElement(p)));
+        getPathsList().filter(Files::isRegularFile).forEach(p -> resumesList.add(getElement(p)));
         return resumesList;
         // peek - возвращает ТОТ ЖЕ stream без изменений, просто применяет к каждому элементу функцию
         // forEach не возвращает ничего
+        // map - каждый элемент отображается в другой элемент (например был стрим пасов, стал стрим резюме)
         // см. параметры-интерфейсы: что и сколько принимает, что возвращает
+        // однажды использованный стрим исчезает, его нужно создавать заново, т.е. загнать его в переменную и использовать несколько раз не получится
     }
 
     @Override
     protected Resume getElement(Path path) {
         try {
-            return doRead(new BufferedInputStream(new FileInputStream(path.toFile()))); // не уверен что так правильно
+            return doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
-            throw new StorageException("IO error while processing " + path.toString(), path.toString(), e);
+            throw new StorageException("IO error while processing " + path, getFileName(path), e);
         }
     }
 
@@ -84,22 +71,22 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
                 Files.delete(path);
             }
         } catch (IOException e) {
-            throw new StorageException("Can not delete file " + path.toString(), path.toString(), e);
+            throw new StorageException("Can not delete file " + path, getFileName(path), e);
         }
     }
 
     @Override
     protected void updateElement(Resume updatedResume, Path path) {
         try {
-            doWrite(updatedResume, new BufferedOutputStream(new FileOutputStream(path.toFile())));
+            doWrite(updatedResume, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
-            throw new StorageException("IO error while processing " + path.toString(), path.toString(), e);
+            throw new StorageException("IO error while processing " + path, updatedResume.getUuid(), e);
         }
     }
 
     @Override
     protected Path getSearchKey(String uuid) {
-        return Paths.get(uuid);  // ???????????????
+        return directory.resolve(uuid);
     }
 
     @Override
@@ -107,13 +94,25 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         try {
             Files.createFile(path);
         } catch (IOException e) {
-            throw new StorageException("IO error while processing " + path.toString(), path.toString(), e);
+            throw new StorageException("IO error while processing " + path, resume.getUuid(), e);
         }
         updateElement(resume, path);
     }
 
     @Override
     protected boolean isExist(Path path) {
-        return Files.isRegularFile(path) && Files.exists(path);
+        return Files.isRegularFile(path);
+    }
+
+    private Stream<Path> getPathsList() {
+        try {
+            return Files.list(directory);
+        } catch (IOException e) {
+            throw new StorageException("Error reading directory", "", e);
+        }
+    }
+
+    private String getFileName(Path path) {
+        return path.getFileName().toString();
     }
 }

@@ -2,8 +2,11 @@ package com.home.webapp.storage;
 
 import com.home.webapp.exception.StorageException;
 import com.home.webapp.model.Resume;
+import com.home.webapp.storage.serializer.StreamSerializerStrategy;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,22 +16,19 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public abstract class AbstractPathStorage extends AbstractStorage<Path> {
+public class PathStorage extends AbstractStorage<Path> {
 
+    private StreamSerializerStrategy streamSerializerStrategy;
     private Path directory;
 
-    public AbstractPathStorage(String dir) {
+    public PathStorage(String dir, StreamSerializerStrategy streamSerializerStrategy) {
+        Objects.requireNonNull(dir, "Directory argument must not be null");
+        this.streamSerializerStrategy = streamSerializerStrategy;
         directory = Paths.get(dir);
-        Objects.requireNonNull(directory, "Directory argument must not be null");
         if (!(Files.isDirectory(directory)) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException("Directory argument is not a valid directory or is not writable");
         }
     }
-
-    protected abstract void doWrite(Resume resume, OutputStream outputStream) throws IOException;
-
-    protected abstract Resume doRead(InputStream inputStream) throws IOException;
-
 
     @Override
     public void clear() {
@@ -58,7 +58,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume getElement(Path path) {
         try {
-            return doRead(new BufferedInputStream(Files.newInputStream(path)));
+            return streamSerializerStrategy.doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
             throw new StorageException("IO error while processing " + path, getFileName(path), e);
         }
@@ -78,7 +78,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected void updateElement(Resume updatedResume, Path path) {
         try {
-            doWrite(updatedResume, new BufferedOutputStream(Files.newOutputStream(path)));
+            streamSerializerStrategy.doWrite(updatedResume, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
             throw new StorageException("IO error while processing " + path, updatedResume.getUuid(), e);
         }

@@ -1,7 +1,10 @@
 package com.home.webapp.model;
 
+import com.home.webapp.util.LocalDateAdapter;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -68,10 +71,13 @@ public class Organization implements Serializable {
     }
 
 
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Record implements Serializable {
 
         private final static LocalDate NOW = LocalDate.of(Year.MAX_VALUE, 1, 1);
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private LocalDate startDate;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private LocalDate endtDate;
         private String recordTitle;
         private String description;

@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -240,7 +241,8 @@ public abstract class AbstractStorageTest {
     public void getAllSorted() throws Exception {
 
         List<Resume> list = storage.getAllSorted();
-        Assert.assertEquals(list, Arrays.asList(ruuid2, ruuid3, ruuid4, ruuid1));
+        List<Resume> expectedList = new ArrayList<>(Arrays.asList(ruuid2, ruuid3, ruuid4, ruuid1));
+        Assert.assertEquals(list, expectedList);
         Assert.assertEquals(4, list.size());
     }
 

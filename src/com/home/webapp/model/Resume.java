@@ -1,6 +1,8 @@
 package com.home.webapp.model;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
@@ -8,7 +10,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 @XmlRootElement(name = "Resume")
-@XmlType(propOrder = {"uuid", "fullName"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Comparable<Resume>, Serializable {
 
@@ -16,9 +17,7 @@ public class Resume implements Comparable<Resume>, Serializable {
 
     private String uuid;
     private String fullName;
-    @XmlTransient
     private Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
-    @XmlTransient
     private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
 
     public Resume() {
@@ -65,18 +64,16 @@ public class Resume implements Comparable<Resume>, Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Resume resume = (Resume) o;
-
-        if (!uuid.equals(resume.uuid)) return false;
-        return fullName.equals(resume.fullName);
+        return Objects.equals(uuid, resume.uuid) &&
+                Objects.equals(fullName, resume.fullName) &&
+                Objects.equals(sections, resume.sections) &&
+                Objects.equals(contacts, resume.contacts);
     }
 
     @Override
     public int hashCode() {
-        int result = uuid.hashCode();
-        result = 31 * result + fullName.hashCode();
-        return result;
+        return Objects.hash(uuid, fullName, sections, contacts);
     }
 
     public String getUuid() {

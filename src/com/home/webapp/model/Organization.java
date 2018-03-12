@@ -1,5 +1,7 @@
 package com.home.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -11,10 +13,14 @@ import java.util.Objects;
 
 import static com.home.webapp.util.DateUtil.of;
 
-public class Organization implements Serializable  {
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
-    private final Link organisation;
+    private Link organisation;
     private List<Record> records = new ArrayList<>();
+
+    public Organization() {
+    }
 
     public Organization(String name, String url, Record... records) {
         this(new Link(name, url), Arrays.asList(records));
@@ -65,11 +71,13 @@ public class Organization implements Serializable  {
     public static class Record implements Serializable {
 
         private final static LocalDate NOW = LocalDate.of(Year.MAX_VALUE, 1, 1);
-        private final LocalDate startDate;
-        private final LocalDate endtDate;
-        private final String recordTitle;
-        private final String description;
+        private LocalDate startDate;
+        private LocalDate endtDate;
+        private String recordTitle;
+        private String description;
 
+        public Record() {
+        }
 
         public Record(LocalDate startDate, LocalDate endtDate, String recordTitle, String description) {
             Objects.requireNonNull(startDate, "startDate argument must not be null");

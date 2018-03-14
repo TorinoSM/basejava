@@ -19,7 +19,7 @@ public class XmlStreamSerializer implements StreamSerializerStrategy {
         try {
             JAXBContext context = JAXBContext.newInstance(Resume.class, Link.class, ListSection.class, Organization.class, Organization.Record.class, OrganizationSection.class, TextSection.class);
             marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
             unmarshaller = context.createUnmarshaller();
         } catch (JAXBException e) {

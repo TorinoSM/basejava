@@ -1,264 +1,398 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Resume>
-    <uuid>uuid1</uuid>
-    <fullName>Григорий Кислин</fullName>
-    <sections>
-        <entry>
-            <key>OBJECTIVE</key>
-            <value xsi:type="textSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <content>Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям</content>
-            </value>
-        </entry>
-        <entry>
-            <key>PERSONAL</key>
-            <value xsi:type="textSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <content> Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры.</content>
-            </value>
-        </entry>
-        <entry>
-            <key>ACHIEVEMENT</key>
-            <value xsi:type="listSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <items>С 2013 года: разработка проектов "Разработка Web приложения","Java Enterprise", "Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)". Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.</items>
-                <items>Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.</items>
-                <items>Налаживание процесса разработки и непрерывной интеграции ERP системы River BPM. Интеграция с 1С, Bonita BPM, CMIS, LDAP. Разработка приложения управления окружением на стеке: Scala/Play/Anorm/JQuery. Разработка SSO аутентификации и авторизации различных ERP модулей, интеграция CIFS/SMB java сервера.</items>
-                <items>Реализация c нуля Rich Internet Application приложения на стеке технологий JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Commet, HTML5, Highstock для алгоритмического трейдинга.</items>
-                <items>Создание JavaEE фреймворка для отказоустойчивого взаимодействия слабо-связанных сервисов (SOA-base архитектура, JAX-WS, JMS, AS Glassfish). Сбор статистики сервисов и информации о состоянии через систему мониторинга Nagios. Реализация онлайн клиента для администрирования и мониторинга системы по JMX (Jython/ Django).</items>
-                <items>Реализация протоколов по приему платежей всех основных платежных системы России (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.</items>
-            </value>
-        </entry>
-        <entry>
-            <key>QUALIFICATIONS</key>
-            <value xsi:type="listSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <items>JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2</items>
-                <items>Version control: Subversion, Git, Mercury, ClearCase, Perforce</items>
-                <items>DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle,</items>
-                <items>MySQL, SQLite, MS SQL, HSQLDB</items>
-                <items>Languages: Java, Scala, Python/Jython/PL-Python, JavaScript, Groovy,</items>
-                <items>XML/XSD/XSLT, SQL, C/C++, Unix shell scripts,</items>
-                <items>Java Frameworks: Java 8 (Time API, Streams), Guava, Java Executor, MyBatis, Spring (MVC, Security, Data, Clouds, Boot), JPA (Hibernate, EclipseLink), Guice, GWT(SmartGWT, ExtGWT/GXT), Vaadin, Jasperreports, Apache Commons, Eclipse SWT, JUnit, Selenium (htmlelements).</items>
-                <items>Python: Django.</items>
-                <items>JavaScript: jQuery, ExtJS, Bootstrap.js, underscore.js</items>
-                <items>Scala: SBT, Play2, Specs2, Anorm, Spray, Akka</items>
-                <items>Технологии: Servlet, JSP/JSTL, JAX-WS, REST, EJB, RMI, JMS, JavaMail, JAXB, StAX, SAX, DOM, XSLT, MDB, JMX, JDBC, JPA, JNDI, JAAS, SOAP, AJAX, Commet, HTML5, ESB, CMIS, BPMN2, LDAP, OAuth1, OAuth2, JWT.</items>
-                <items>Инструменты: Maven + plugin development, Gradle, настройка Ngnix,</items>
-                <items>администрирование Hudson/Jenkins, Ant + custom task, SoapUI, JPublisher, Flyway, Nagios, iReport, OpenCmis, Bonita, pgBouncer.</items>
-                <items>Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектирования, архитектурных шаблонов, UML, функционального программирования</items>
-                <items>Родной русский, английский "upper intermediate"</items>
-            </value>
-        </entry>
-        <entry>
-            <key>EXPERIENCE</key>
-            <value xsi:type="organizationSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <organizations>
-                    <organisation>
-                        <name>Java Online Projects</name>
-                        <url>http://javaops.ru/</url>
-                    </organisation>
-                    <records>
-                        <startDate>2013-10-01</startDate>
-                        <endtDate>+999999999-01-01</endtDate>
-                        <recordTitle>Автор проекта.</recordTitle>
-                        <description>Создание, организация и проведение Java онлайн проектов и стажировок.</description>
-                    </records>
-                </organizations>
-                <organizations>
-                    <organisation>
-                        <name>Wrike</name>
-                        <url>https://www.wrike.com/ru/</url>
-                    </organisation>
-                    <records>
-                        <startDate>2014-10-01</startDate>
-                        <endtDate>2016-01-01</endtDate>
-                        <recordTitle>Старший разработчик (backend)</recordTitle>
-                        <description>Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.</description>
-                    </records>
-                </organizations>
-                <organizations>
-                    <organisation>
-                        <name>RIT Center</name>
-                        <url></url>
-                    </organisation>
-                    <records>
-                        <startDate>2012-04-01</startDate>
-                        <endtDate>2014-10-01</endtDate>
-                        <recordTitle>Java архитектор</recordTitle>
-                        <description>Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части системы. Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN для online редактирование из браузера документов MS Office. Maven + plugin development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python</description>
-                    </records>
-                </organizations>
-                <organizations>
-                    <organisation>
-                        <name>Luxoft (Deutsche Bank)</name>
-                        <url>http://www.luxoft.ru/</url>
-                    </organisation>
-                    <records>
-                        <startDate>2013-10-01</startDate>
-                        <endtDate>2016-01-01</endtDate>
-                        <recordTitle>Автор проекта.</recordTitle>
-                        <description>Создание, организация и проведение Java онлайн проектов и стажировок.</description>
-                    </records>
-                </organizations>
-                <organizations>
-                    <organisation>
-                        <name>Yota</name>
-                        <url>https://www.yota.ru/</url>
-                    </organisation>
-                    <records>
-                        <startDate>2008-06-01</startDate>
-                        <endtDate>2010-12-01</endtDate>
-                        <recordTitle>Ведущий специалист</recordTitle>
-                        <description>Дизайн и имплементация Java EE фреймворка для отдела "Платежные Системы" (GlassFish v2.1, v3, OC4J, EJB3, JAX-WS RI 2.1, Servlet 2.4, JSP, JMX, JMS, Maven2). Реализация администрирования, статистики и мониторинга фреймворка. Разработка online JMX клиента (Python/ Jython, Django, ExtJS)</description>
-                    </records>
-                </organizations>
-                <organizations>
-                    <organisation>
-                        <name>Enkata</name>
-                        <url>enkata.com</url>
-                    </organisation>
-                    <records>
-                        <startDate>2007-03-01</startDate>
-                        <endtDate>2008-06-01</endtDate>
-                        <recordTitle>Разработчик ПО</recordTitle>
-                        <description>Реализация клиентской (Eclipse RCP) и серверной (JBoss 4.2, Hibernate 3.0, Tomcat, JMS) частей кластерного J2EE приложения (OLAP, Data mining).</description>
-                    </records>
-                </organizations>
-                <organizations>
-                    <organisation>
-                        <name>Siemens AG</name>
-                        <url>https://www.siemens.com/ru/ru/home.html</url>
-                    </organisation>
-                    <records>
-                        <startDate>2005-01-01</startDate>
-                        <endtDate>2007-02-01</endtDate>
-                        <recordTitle>Разработчик ПО</recordTitle>
-                        <description>Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной IN платформе Siemens @vantage (Java, Unix).</description>
-                    </records>
-                </organizations>
-                <organizations>
-                    <organisation>
-                        <name>Alcatel</name>
-                        <url>http://www.alcatel.ru/</url>
-                    </organisation>
-                    <records>
-                        <startDate>1997-09-01</startDate>
-                        <endtDate>2005-01-01</endtDate>
-                        <recordTitle>Инженер по аппаратному и программному тестированию</recordTitle>
-                        <description>Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM).</description>
-                    </records>
-                </organizations>
-            </value>
-        </entry>
-        <entry>
-            <key>EDUCATION</key>
-            <value xsi:type="organizationSection" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                <organizations>
-                    <organisation>
-                        <name>Coursera</name>
-                        <url>https://www.coursera.org/learn/progfun1</url>
-                    </organisation>
-                    <records>
-                        <startDate>2013-03-01</startDate>
-                        <endtDate>2013-05-01</endtDate>
-                        <recordTitle>"Functional Programming Principles in Scala" by Martin Odersky</recordTitle>
-                        <description></description>
-                    </records>
-                </organizations>
-                <organizations>
-                    <organisation>
-                        <name>Luxoft</name>
-                        <url>http://www.luxoft-training.ru/kurs/obektno-orientirovannyy__analiz_is_kontseptualnoe_modelirovanie_na_uml_dlya_sistemnyh_analitikov_.html</url>
-                    </organisation>
-                    <records>
-                        <startDate>2011-03-01</startDate>
-                        <endtDate>2011-04-01</endtDate>
-                        <recordTitle>Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\</recordTitle>
-                        <description></description>
-                    </records>
-                </organizations>
-                <organizations>
-                    <organisation>
-                        <name>Siemens AG</name>
-                        <url>https://www.siemens.com/ru/ru/home.html</url>
-                    </organisation>
-                    <records>
-                        <startDate>2005-01-01</startDate>
-                        <endtDate>2005-04-01</endtDate>
-                        <recordTitle>3 месяца обучения мобильным IN сетям (Берлин)</recordTitle>
-                        <description></description>
-                    </records>
-                </organizations>
-                <organizations>
-                    <organisation>
-                        <name>Alcatel</name>
-                        <url>http://www.alcatel.ru/</url>
-                    </organisation>
-                    <records>
-                        <startDate>1997-09-01</startDate>
-                        <endtDate>1998-03-01</endtDate>
-                        <recordTitle>6 месяцев обучения цифровым телефонным сетям (Москва)</recordTitle>
-                        <description></description>
-                    </records>
-                </organizations>
-                <organizations>
-                    <organisation>
-                        <name>Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики</name>
-                        <url>http://www.ifmo.ru/ru/</url>
-                    </organisation>
-                    <records>
-                        <startDate>1993-09-01</startDate>
-                        <endtDate>1996-07-01</endtDate>
-                        <recordTitle>Аспирантура (программист С, С++)</recordTitle>
-                        <description></description>
-                    </records>
-                    <records>
-                        <startDate>1987-09-01</startDate>
-                        <endtDate>1993-07-01</endtDate>
-                        <recordTitle>Инженер (программист Fortran, C)</recordTitle>
-                        <description></description>
-                    </records>
-                </organizations>
-                <organizations>
-                    <organisation>
-                        <name>Заочная физико-техническая школа при МФТИ</name>
-                        <url>http://www.school.mipt.ru/</url>
-                    </organisation>
-                    <records>
-                        <startDate>1984-09-01</startDate>
-                        <endtDate>1987-06-01</endtDate>
-                        <recordTitle>Закончил с отличием</recordTitle>
-                        <description></description>
-                    </records>
-                </organizations>
-            </value>
-        </entry>
-    </sections>
-    <contacts>
-        <entry>
-            <key>PHONE</key>
-            <value>+7(921) 855-0482</value>
-        </entry>
-        <entry>
-            <key>SKYPE</key>
-            <value>grigory.kislin</value>
-        </entry>
-        <entry>
-            <key>MAIL</key>
-            <value>gkislin@yandex.ru</value>
-        </entry>
-        <entry>
-            <key>LINKEDIN</key>
-            <value>https://www.linkedin.com/in/gkislin</value>
-        </entry>
-        <entry>
-            <key>GITHUB</key>
-            <value>https://github.com/gkislin</value>
-        </entry>
-        <entry>
-            <key>STACKOVERFLOW</key>
-            <value>https://stackoverflow.com/users/548473/gkislin</value>
-        </entry>
-        <entry>
-            <key>HOME_PAGE</key>
-            <value>http://gkislin.ru/</value>
-        </entry>
-    </contacts>
-</Resume>
+{
+  "uuid": "uuid1",
+  "fullName": "Григорий Кислин",
+  "sections": {
+    "OBJECTIVE": {
+      "sectionClassType": "com.home.webapp.model.TextSection",
+      "sectionData": {
+        "content": "Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"
+      }
+    },
+    "PERSONAL": {
+      "sectionClassType": "com.home.webapp.model.TextSection",
+      "sectionData": {
+        "content": " Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."
+      }
+    },
+    "ACHIEVEMENT": {
+      "sectionClassType": "com.home.webapp.model.ListSection",
+      "sectionData": {
+        "items": [
+          "С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", \"Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)\". Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.",
+          "Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.",
+          "Налаживание процесса разработки и непрерывной интеграции ERP системы River BPM. Интеграция с 1С, Bonita BPM, CMIS, LDAP. Разработка приложения управления окружением на стеке: Scala/Play/Anorm/JQuery. Разработка SSO аутентификации и авторизации различных ERP модулей, интеграция CIFS/SMB java сервера.",
+          "Реализация c нуля Rich Internet Application приложения на стеке технологий JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Commet, HTML5, Highstock для алгоритмического трейдинга.",
+          "Создание JavaEE фреймворка для отказоустойчивого взаимодействия слабо-связанных сервисов (SOA-base архитектура, JAX-WS, JMS, AS Glassfish). Сбор статистики сервисов и информации о состоянии через систему мониторинга Nagios. Реализация онлайн клиента для администрирования и мониторинга системы по JMX (Jython/ Django).",
+          "Реализация протоколов по приему платежей всех основных платежных системы России (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа."
+        ]
+      }
+    },
+    "QUALIFICATIONS": {
+      "sectionClassType": "com.home.webapp.model.ListSection",
+      "sectionData": {
+        "items": [
+          "JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2",
+          "Version control: Subversion, Git, Mercury, ClearCase, Perforce",
+          "DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle,",
+          "MySQL, SQLite, MS SQL, HSQLDB",
+          "Languages: Java, Scala, Python/Jython/PL-Python, JavaScript, Groovy,",
+          "XML/XSD/XSLT, SQL, C/C++, Unix shell scripts,",
+          "Java Frameworks: Java 8 (Time API, Streams), Guava, Java Executor, MyBatis, Spring (MVC, Security, Data, Clouds, Boot), JPA (Hibernate, EclipseLink), Guice, GWT(SmartGWT, ExtGWT/GXT), Vaadin, Jasperreports, Apache Commons, Eclipse SWT, JUnit, Selenium (htmlelements).",
+          "Python: Django.",
+          "JavaScript: jQuery, ExtJS, Bootstrap.js, underscore.js",
+          "Scala: SBT, Play2, Specs2, Anorm, Spray, Akka",
+          "Технологии: Servlet, JSP/JSTL, JAX-WS, REST, EJB, RMI, JMS, JavaMail, JAXB, StAX, SAX, DOM, XSLT, MDB, JMX, JDBC, JPA, JNDI, JAAS, SOAP, AJAX, Commet, HTML5, ESB, CMIS, BPMN2, LDAP, OAuth1, OAuth2, JWT.",
+          "Инструменты: Maven + plugin development, Gradle, настройка Ngnix,",
+          "администрирование Hudson/Jenkins, Ant + custom task, SoapUI, JPublisher, Flyway, Nagios, iReport, OpenCmis, Bonita, pgBouncer.",
+          "Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектирования, архитектурных шаблонов, UML, функционального программирования",
+          "Родной русский, английский \"upper intermediate\""
+        ]
+      }
+    },
+    "EXPERIENCE": {
+      "sectionClassType": "com.home.webapp.model.OrganizationSection",
+      "sectionData": {
+        "organizations": [
+          {
+            "organisation": {
+              "name": "Java Online Projects",
+              "url": "http://javaops.ru/"
+            },
+            "records": [
+              {
+                "startDate": {
+                  "year": 2013,
+                  "month": 10,
+                  "day": 1
+                },
+                "endtDate": {
+                  "year": 999999999,
+                  "month": 1,
+                  "day": 1
+                },
+                "recordTitle": "Автор проекта.",
+                "description": "Создание, организация и проведение Java онлайн проектов и стажировок."
+              }
+            ]
+          },
+          {
+            "organisation": {
+              "name": "Wrike",
+              "url": "https://www.wrike.com/ru/"
+            },
+            "records": [
+              {
+                "startDate": {
+                  "year": 2014,
+                  "month": 10,
+                  "day": 1
+                },
+                "endtDate": {
+                  "year": 2016,
+                  "month": 1,
+                  "day": 1
+                },
+                "recordTitle": "Старший разработчик (backend)",
+                "description": "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."
+              }
+            ]
+          },
+          {
+            "organisation": {
+              "name": "RIT Center",
+              "url": ""
+            },
+            "records": [
+              {
+                "startDate": {
+                  "year": 2012,
+                  "month": 4,
+                  "day": 1
+                },
+                "endtDate": {
+                  "year": 2014,
+                  "month": 10,
+                  "day": 1
+                },
+                "recordTitle": "Java архитектор",
+                "description": "Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части системы. Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN для online редактирование из браузера документов MS Office. Maven + plugin development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python"
+              }
+            ]
+          },
+          {
+            "organisation": {
+              "name": "Luxoft (Deutsche Bank)",
+              "url": "http://www.luxoft.ru/"
+            },
+            "records": [
+              {
+                "startDate": {
+                  "year": 2013,
+                  "month": 10,
+                  "day": 1
+                },
+                "endtDate": {
+                  "year": 2016,
+                  "month": 1,
+                  "day": 1
+                },
+                "recordTitle": "Автор проекта.",
+                "description": "Создание, организация и проведение Java онлайн проектов и стажировок."
+              }
+            ]
+          },
+          {
+            "organisation": {
+              "name": "Yota",
+              "url": "https://www.yota.ru/"
+            },
+            "records": [
+              {
+                "startDate": {
+                  "year": 2008,
+                  "month": 6,
+                  "day": 1
+                },
+                "endtDate": {
+                  "year": 2010,
+                  "month": 12,
+                  "day": 1
+                },
+                "recordTitle": "Ведущий специалист",
+                "description": "Дизайн и имплементация Java EE фреймворка для отдела \"Платежные Системы\" (GlassFish v2.1, v3, OC4J, EJB3, JAX-WS RI 2.1, Servlet 2.4, JSP, JMX, JMS, Maven2). Реализация администрирования, статистики и мониторинга фреймворка. Разработка online JMX клиента (Python/ Jython, Django, ExtJS)"
+              }
+            ]
+          },
+          {
+            "organisation": {
+              "name": "Enkata",
+              "url": "enkata.com"
+            },
+            "records": [
+              {
+                "startDate": {
+                  "year": 2007,
+                  "month": 3,
+                  "day": 1
+                },
+                "endtDate": {
+                  "year": 2008,
+                  "month": 6,
+                  "day": 1
+                },
+                "recordTitle": "Разработчик ПО",
+                "description": "Реализация клиентской (Eclipse RCP) и серверной (JBoss 4.2, Hibernate 3.0, Tomcat, JMS) частей кластерного J2EE приложения (OLAP, Data mining)."
+              }
+            ]
+          },
+          {
+            "organisation": {
+              "name": "Siemens AG",
+              "url": "https://www.siemens.com/ru/ru/home.html"
+            },
+            "records": [
+              {
+                "startDate": {
+                  "year": 2005,
+                  "month": 1,
+                  "day": 1
+                },
+                "endtDate": {
+                  "year": 2007,
+                  "month": 2,
+                  "day": 1
+                },
+                "recordTitle": "Разработчик ПО",
+                "description": "Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной IN платформе Siemens @vantage (Java, Unix)."
+              }
+            ]
+          },
+          {
+            "organisation": {
+              "name": "Alcatel",
+              "url": "http://www.alcatel.ru/"
+            },
+            "records": [
+              {
+                "startDate": {
+                  "year": 1997,
+                  "month": 9,
+                  "day": 1
+                },
+                "endtDate": {
+                  "year": 2005,
+                  "month": 1,
+                  "day": 1
+                },
+                "recordTitle": "Инженер по аппаратному и программному тестированию",
+                "description": "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM)."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "EDUCATION": {
+      "sectionClassType": "com.home.webapp.model.OrganizationSection",
+      "sectionData": {
+        "organizations": [
+          {
+            "organisation": {
+              "name": "Coursera",
+              "url": "https://www.coursera.org/learn/progfun1"
+            },
+            "records": [
+              {
+                "startDate": {
+                  "year": 2013,
+                  "month": 3,
+                  "day": 1
+                },
+                "endtDate": {
+                  "year": 2013,
+                  "month": 5,
+                  "day": 1
+                },
+                "recordTitle": "\"Functional Programming Principles in Scala\" by Martin Odersky",
+                "description": ""
+              }
+            ]
+          },
+          {
+            "organisation": {
+              "name": "Luxoft",
+              "url": "http://www.luxoft-training.ru/kurs/obektno-orientirovannyy__analiz_is_kontseptualnoe_modelirovanie_na_uml_dlya_sistemnyh_analitikov_.html"
+            },
+            "records": [
+              {
+                "startDate": {
+                  "year": 2011,
+                  "month": 3,
+                  "day": 1
+                },
+                "endtDate": {
+                  "year": 2011,
+                  "month": 4,
+                  "day": 1
+                },
+                "recordTitle": "Курс \\\"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\\",
+                "description": ""
+              }
+            ]
+          },
+          {
+            "organisation": {
+              "name": "Siemens AG",
+              "url": "https://www.siemens.com/ru/ru/home.html"
+            },
+            "records": [
+              {
+                "startDate": {
+                  "year": 2005,
+                  "month": 1,
+                  "day": 1
+                },
+                "endtDate": {
+                  "year": 2005,
+                  "month": 4,
+                  "day": 1
+                },
+                "recordTitle": "3 месяца обучения мобильным IN сетям (Берлин)",
+                "description": ""
+              }
+            ]
+          },
+          {
+            "organisation": {
+              "name": "Alcatel",
+              "url": "http://www.alcatel.ru/"
+            },
+            "records": [
+              {
+                "startDate": {
+                  "year": 1997,
+                  "month": 9,
+                  "day": 1
+                },
+                "endtDate": {
+                  "year": 1998,
+                  "month": 3,
+                  "day": 1
+                },
+                "recordTitle": "6 месяцев обучения цифровым телефонным сетям (Москва)",
+                "description": ""
+              }
+            ]
+          },
+          {
+            "organisation": {
+              "name": "Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
+              "url": "http://www.ifmo.ru/ru/"
+            },
+            "records": [
+              {
+                "startDate": {
+                  "year": 1993,
+                  "month": 9,
+                  "day": 1
+                },
+                "endtDate": {
+                  "year": 1996,
+                  "month": 7,
+                  "day": 1
+                },
+                "recordTitle": "Аспирантура (программист С, С++)",
+                "description": ""
+              },
+              {
+                "startDate": {
+                  "year": 1987,
+                  "month": 9,
+                  "day": 1
+                },
+                "endtDate": {
+                  "year": 1993,
+                  "month": 7,
+                  "day": 1
+                },
+                "recordTitle": "Инженер (программист Fortran, C)",
+                "description": ""
+              }
+            ]
+          },
+          {
+            "organisation": {
+              "name": "Заочная физико-техническая школа при МФТИ",
+              "url": "http://www.school.mipt.ru/"
+            },
+            "records": [
+              {
+                "startDate": {
+                  "year": 1984,
+                  "month": 9,
+                  "day": 1
+                },
+                "endtDate": {
+                  "year": 1987,
+                  "month": 6,
+                  "day": 1
+                },
+                "recordTitle": "Закончил с отличием",
+                "description": ""
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "contacts": {
+    "PHONE": "+7(921) 855-0482",
+    "SKYPE": "grigory.kislin",
+    "MAIL": "gkislin@yandex.ru",
+    "LINKEDIN": "https://www.linkedin.com/in/gkislin",
+    "GITHUB": "https://github.com/gkislin",
+    "STACKOVERFLOW": "https://stackoverflow.com/users/548473/gkislin",
+    "HOME_PAGE": "http://gkislin.ru/"
+  }
+}

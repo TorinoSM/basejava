@@ -64,25 +64,37 @@ public class Resume implements Comparable<Resume>, Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Resume resume = (Resume) o;
-        return Objects.equals(uuid, resume.uuid) &&
-                Objects.equals(fullName, resume.fullName) &&
-                Objects.equals(sections, resume.sections) &&
-                Objects.equals(contacts, resume.contacts);
+
+        if (!uuid.equals(resume.uuid)) return false;
+        if (!fullName.equals(resume.fullName)) return false;
+        if (!sections.equals(resume.sections)) return false;
+        return contacts != null ? contacts.equals(resume.contacts) : resume.contacts == null;
+
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, fullName, sections, contacts);
-    }
-
-    public String getUuid() {
-        return uuid;
+        int result = uuid.hashCode();
+        result = 31 * result + fullName.hashCode();
+        result = 31 * result + sections.hashCode();
+        result = 31 * result + (contacts != null ? contacts.hashCode() : 0);
+        return result;
     }
 
     @Override
     public String toString() {
-        return "Resume{uuid = " + uuid + ", fullName = " + (fullName.equals("") ? "\"\"" : fullName) + '}';
+        return "Resume{" +
+                "uuid='" + uuid + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", sections=" + sections +
+                ", contacts=" + contacts +
+                '}';
+    }
+
+    public String getUuid() {
+        return uuid;
     }
 
     @Override

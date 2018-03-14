@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Resume>
-    <uuid>uuid4</uuid>
-    <fullName>name4</fullName>
-    <sections/>
-    <contacts/>
-</Resume>
+{
+  "uuid": "uuid4",
+  "fullName": "name4",
+  "sections": {},
+  "contacts": {}
+}

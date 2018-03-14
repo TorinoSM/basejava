@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -74,7 +73,7 @@ public class Organization implements Serializable {
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Record implements Serializable {
 
-        private final static LocalDate NOW = LocalDate.of(Year.MAX_VALUE, 1, 1);
+        private final static LocalDate NOW = LocalDate.of(9999, 1, 1);
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private LocalDate startDate;
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
@@ -152,7 +151,7 @@ public class Organization implements Serializable {
             return endtDate;
         }
 
-        public String getRecordTitle() {
+        public String getTitle() {
             return recordTitle;
         }
 

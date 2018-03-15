@@ -84,30 +84,19 @@ public class DataStreamSerializer implements StreamSerializerStrategy {
 
             size = dataInputStream.readInt(); // кол секций
             for (int i = 0; i < size; i++) {
-                String sectionType = dataInputStream.readUTF();
-                if (sectionType.equals(OBJECTIVE.name())) {
-                    resume.addSection(OBJECTIVE, new TextSection(dataInputStream.readUTF()));
+                SectionType sectionType = SectionType.valueOf(dataInputStream.readUTF());
+                if (sectionType.equals(OBJECTIVE) || sectionType.equals(PERSONAL)) {
+                    resume.addSection(sectionType, new TextSection(dataInputStream.readUTF()));
                 }
-                if (sectionType.equals(PERSONAL.name())) {
-                    resume.addSection(PERSONAL, new TextSection(dataInputStream.readUTF()));
-                }
-                if (sectionType.equals(ACHIEVEMENT.name())) {
+                if (sectionType.equals(ACHIEVEMENT)||sectionType.equals(QUALIFICATIONS)) {
                     size = dataInputStream.readInt(); // кол элементов в ListSection
                     List<String> items = new ArrayList<>();
                     for (int j = 0; j < size; j++) {
                         items.add(dataInputStream.readUTF());
                     }
-                    resume.addSection(ACHIEVEMENT, new ListSection(items));
+                    resume.addSection(sectionType, new ListSection(items));
                 }
-                if (sectionType.equals(QUALIFICATIONS.name())) {
-                    size = dataInputStream.readInt(); // кол элементов в ListSection
-                    List<String> items = new ArrayList<>();
-                    for (int j = 0; j < size; j++) {
-                        items.add(dataInputStream.readUTF());
-                    }
-                    resume.addSection(QUALIFICATIONS, new ListSection(items));
-                }
-                if (sectionType.equals(EXPERIENCE.name())) {
+                if (sectionType.equals(EXPERIENCE)||sectionType.equals(EDUCATION)) {
                     size = dataInputStream.readInt(); // кол элементов в OrganisationSection
                     List<Organization> organizations = new ArrayList<>();
                     for (int j = 0; j < size; j++) {
@@ -126,28 +115,7 @@ public class DataStreamSerializer implements StreamSerializerStrategy {
                         }
                         organizations.add(new Organization(new Link(name, url), record));
                     }
-                    resume.addSection(EXPERIENCE, new OrganizationSection(organizations));
-                }
-                if (sectionType.equals(EDUCATION.name())) {
-                    size = dataInputStream.readInt(); // кол элементов в OrganisationSection
-                    List<Organization> organizations = new ArrayList<>();
-                    for (int j = 0; j < size; j++) {
-                        String name = dataInputStream.readUTF();
-                        String url = dataInputStream.readUTF();
-                        int recordsAmount = dataInputStream.readInt(); // кол записей
-                        List<Organization.Record> record = new ArrayList<>();
-                        for (int k = 0; k < recordsAmount; k++) {
-                            String title = dataInputStream.readUTF();
-                            String description = dataInputStream.readUTF();
-                            int startYear = dataInputStream.readInt();
-                            int startMonth = dataInputStream.readInt();
-                            int endYear = dataInputStream.readInt();
-                            int endMonth = dataInputStream.readInt();
-                            record.add(new Organization.Record(startYear, Month.of(startMonth), endYear, Month.of(endMonth), title, description));
-                        }
-                        organizations.add(new Organization(new Link(name, url), record));
-                    }
-                    resume.addSection(EDUCATION, new OrganizationSection(organizations));
+                    resume.addSection(sectionType, new OrganizationSection(organizations));
                 }
             }
         }

@@ -77,10 +77,12 @@ public class DataStreamSerializer implements StreamSerializerStrategy {
 
             resume = new Resume(dataInputStream.readUTF(), dataInputStream.readUTF());
 
+
             int size = dataInputStream.readInt(); // кол контактов
             for (int i = 0; i < size; i++) {
                 resume.addContact(ContactType.valueOf(dataInputStream.readUTF()), dataInputStream.readUTF());
             }
+
 
             size = dataInputStream.readInt(); // кол секций
             for (int i = 0; i < size; i++) {
@@ -88,7 +90,7 @@ public class DataStreamSerializer implements StreamSerializerStrategy {
                 if (sectionType.equals(OBJECTIVE) || sectionType.equals(PERSONAL)) {
                     resume.addSection(sectionType, new TextSection(dataInputStream.readUTF()));
                 }
-                if (sectionType.equals(ACHIEVEMENT)||sectionType.equals(QUALIFICATIONS)) {
+                if (sectionType.equals(ACHIEVEMENT) || sectionType.equals(QUALIFICATIONS)) {
                     size = dataInputStream.readInt(); // кол элементов в ListSection
                     List<String> items = new ArrayList<>();
                     for (int j = 0; j < size; j++) {
@@ -96,7 +98,7 @@ public class DataStreamSerializer implements StreamSerializerStrategy {
                     }
                     resume.addSection(sectionType, new ListSection(items));
                 }
-                if (sectionType.equals(EXPERIENCE)||sectionType.equals(EDUCATION)) {
+                if (sectionType.equals(EXPERIENCE) || sectionType.equals(EDUCATION)) {
                     size = dataInputStream.readInt(); // кол элементов в OrganisationSection
                     List<Organization> organizations = new ArrayList<>();
                     for (int j = 0; j < size; j++) {

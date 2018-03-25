@@ -1,24 +1,23 @@
 package com.home.webapp.storage;
 
+import com.home.webapp.Config;
 import com.home.webapp.exception.ExistStorageException;
 import com.home.webapp.exception.NotExistStorageException;
-import com.home.webapp.model.*;
+import com.home.webapp.model.Resume;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 
 public abstract class AbstractStorageTest {
 
-    protected static final File STORAGE_DIR = new File("C:\\Users\\name2015\\basejava\\storage");
+    protected static final File STORAGE_DIR = Config.getInstance().getStorageDir();
 
     protected Storage storage;
     private Resume ruuid1 = new Resume("uuid1", "Григорий Кислин");
@@ -36,6 +35,7 @@ public abstract class AbstractStorageTest {
     public void setUp() throws Exception {
         storage.clear();
 
+/*
         // заполняем Контакты
         Map<ContactType, String> contacts = ruuid1.getContacts();
         contacts.put(ContactType.PHONE, "+7(921) 855-0482");
@@ -145,6 +145,7 @@ public abstract class AbstractStorageTest {
         );
 
         // закончили заполнение резюме
+*/
 
         storage.save(ruuid1);
         storage.save(ruuid3);

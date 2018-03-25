@@ -99,6 +99,10 @@ public class Resume implements Comparable<Resume>, Serializable {
 
     @Override
     public int compareTo(Resume o) {
-        return this.uuid.compareTo(o.uuid);
+        int compare = this.fullName.compareTo(o.fullName);
+        if (compare==0){
+            return this.uuid.compareTo(o.uuid);
+        }
+        return compare;
     }
 }

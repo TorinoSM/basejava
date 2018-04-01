@@ -3,6 +3,7 @@ package com.home.webapp.storage;
 import com.home.webapp.exception.ExistStorageException;
 import com.home.webapp.exception.NotExistStorageException;
 import com.home.webapp.exception.StorageException;
+import com.home.webapp.model.ContactType;
 import com.home.webapp.model.Resume;
 
 import java.sql.*;
@@ -78,8 +79,28 @@ public class SqlStorage implements Storage {
                 preparedStatement.setString(1, uuid);
                 preparedStatement.setString(2, r.getFullName());
                 preparedStatement.execute();
-
             }
+
+            connection.setAutoCommit(false);
+
+            for (ContactType contactType : ContactType.values()) {
+                String contactValue = r.getContact(contactType);
+                if (contactValue != null) { // если данный тип контакта есть в резюме
+                    try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO contact (resume_uuid, type, value) VALUES (?, ?, ?)")) {
+                        preparedStatement.setString(1, uuid);
+                        preparedStatement.setString(2, contactType.toString());
+                        preparedStatement.setString(3, contactValue);
+                        preparedStatement.execute();
+                    }
+                }
+            }
+
+            connection.commit();
+
+            // TODO: добавить секции
+
+            connection.setAutoCommit(true);
+
 
         } catch (SQLException e) {
             throw new StorageException("Error saving resume", "", e);
@@ -89,13 +110,25 @@ public class SqlStorage implements Storage {
     @Override
     public Resume get(String uuid) {
         try (Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM resume r WHERE r.uuid = ?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("" +
+                     "SELECT * FROM resume AS r " +
+                     "LEFT JOIN contact AS c " +
+                     "ON r.uuid=c.resume_uuid " +
+                     "WHERE r.uuid=?")) {
             preparedStatement.setString(1, uuid);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.next()) {
                 throw new NotExistStorageException(uuid);
             }
-            return new Resume(uuid, resultSet.getString("full_name"));
+            Resume resume = new Resume(uuid, resultSet.getString("full_name"));
+            do {
+                String contactType = resultSet.getString("type");
+                if (contactType == null) {
+                    break; // если контактов нет, то прерываем цикл
+                }
+                resume.addContact(ContactType.valueOf(contactType), resultSet.getString("value"));
+            } while (resultSet.next());
+            return resume;
         } catch (SQLException e) {
             throw new StorageException("Error while getting resume from DB", "", e);
         }
@@ -118,15 +151,11 @@ public class SqlStorage implements Storage {
     @Override
     public List<Resume> getAllSorted() {
         Set<Resume> set = new TreeSet<>();
-        int size = size();
         try (Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM resume")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT uuid FROM resume")) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                String uuid = resultSet.getString("uuid");
-                String fullName = resultSet.getString("full_name");
-                Resume resume = new Resume(uuid.trim(), fullName);
-                set.add(resume);
+                set.add(get(resultSet.getString("uuid").trim()));
             }
             return set.stream().collect(Collectors.toList());
         } catch (SQLException e) {

@@ -3,6 +3,7 @@ package com.home.webapp.storage;
 import com.home.webapp.Config;
 import com.home.webapp.exception.ExistStorageException;
 import com.home.webapp.exception.NotExistStorageException;
+import com.home.webapp.model.ContactType;
 import com.home.webapp.model.Resume;
 import org.junit.After;
 import org.junit.Assert;
@@ -13,6 +14,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 
 public abstract class AbstractStorageTest {
@@ -35,7 +37,7 @@ public abstract class AbstractStorageTest {
     public void setUp() throws Exception {
         storage.clear();
 
-/*
+
         // заполняем Контакты
         Map<ContactType, String> contacts = ruuid1.getContacts();
         contacts.put(ContactType.PHONE, "+7(921) 855-0482");
@@ -45,7 +47,7 @@ public abstract class AbstractStorageTest {
         contacts.put(ContactType.GITHUB, "https://github.com/gkislin");
         contacts.put(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/gkislin");
         contacts.put(ContactType.HOME_PAGE, "http://gkislin.ru/");
-
+/*
         // перечень секций
 //        Map<SectionType, Section> sections = ruuid1.getSections();
 
@@ -243,7 +245,7 @@ public abstract class AbstractStorageTest {
 
         List<Resume> list = storage.getAllSorted();
         List<Resume> expectedList = new ArrayList<>(Arrays.asList(ruuid2, ruuid3, ruuid4, ruuid1));
-        Assert.assertEquals(list, expectedList);
+        Assert.assertEquals(expectedList, list);
         Assert.assertEquals(4, list.size());
     }
 

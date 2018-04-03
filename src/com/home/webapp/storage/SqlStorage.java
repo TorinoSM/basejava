@@ -66,9 +66,12 @@ public class SqlStorage implements Storage {
         String uuid = r.getUuid();
         try (Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword)) {
 
+            connection.setAutoCommit(false);
+
             try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT count(*) FROM resume WHERE uuid=?")) {
                 preparedStatement.setString(1, uuid);
                 ResultSet resultSet = preparedStatement.executeQuery();
+                connection.commit();
                 resultSet.next();
                 if (Integer.valueOf(resultSet.getString(1)) > 0) {
                     throw new ExistStorageException(uuid);
@@ -79,23 +82,24 @@ public class SqlStorage implements Storage {
                 preparedStatement.setString(1, uuid);
                 preparedStatement.setString(2, r.getFullName());
                 preparedStatement.execute();
+                connection.commit();
             }
 
-            connection.setAutoCommit(false);
-
-            for (ContactType contactType : ContactType.values()) {
-                String contactValue = r.getContact(contactType);
-                if (contactValue != null) { // если данный тип контакта есть в резюме
-                    try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO contact (resume_uuid, type, value) VALUES (?, ?, ?)")) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO contact (resume_uuid, type, value) VALUES (?, ?, ?)")) {
+                for (ContactType contactType : ContactType.values()) { // бежим по всем типам контактов (пустым и не пустым)
+                    String contactValue = r.getContact(contactType);
+                    if (contactValue != null) { // вставляем только непустые контакты
                         preparedStatement.setString(1, uuid);
                         preparedStatement.setString(2, contactType.toString());
                         preparedStatement.setString(3, contactValue);
-                        preparedStatement.execute();
+                        preparedStatement.addBatch();
                     }
                 }
+                preparedStatement.executeBatch();
+                connection.commit();
             }
 
-            connection.commit();
+
 
             // TODO: добавить секции
 

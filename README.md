@@ -1,5 +1,5 @@
 Web приложение "База данных резюме"
-  - использованные технологии: Java 8, IntelliJ IDEA, GitHib/Git, Сервлеты, JSP, JSTL, Tomcat, JUnit, PostgreSQL, GSON, JAXB
+  - использованные технологии: Java 8, IntelliJ IDEA, GitHub/Git, Сервлеты, JSP, JSTL, Tomcat, JUnit, PostgreSQL, GSON, JAXB
   - реализовано хранение резюме
      -  в памяти на основе массива, отсортированного массива, списка и ассоциированного массива (Map)
      -  в файловой системе (File API и Java 7 NIO File API)

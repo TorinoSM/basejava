@@ -3,14 +3,14 @@ package com.home.webapp.storage;
 import com.home.webapp.Config;
 import com.home.webapp.exception.ExistStorageException;
 import com.home.webapp.exception.NotExistStorageException;
-import com.home.webapp.model.ContactType;
-import com.home.webapp.model.Resume;
+import com.home.webapp.model.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -47,7 +47,7 @@ public abstract class AbstractStorageTest {
         contacts.put(ContactType.GITHUB, "https://github.com/gkislin");
         contacts.put(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/gkislin");
         contacts.put(ContactType.HOME_PAGE, "http://gkislin.ru/");
-/*
+
         // перечень секций
 //        Map<SectionType, Section> sections = ruuid1.getSections();
 
@@ -88,7 +88,8 @@ public abstract class AbstractStorageTest {
                 "Родной русский, английский \"upper intermediate\""
         ));
 
-        // заполняем Опыт работы
+
+
 
         ruuid1.addSection(SectionType.EXPERIENCE, new OrganizationSection(
                 new Organization("Java Online Projects",
@@ -147,7 +148,6 @@ public abstract class AbstractStorageTest {
         );
 
         // закончили заполнение резюме
-*/
 
         storage.save(ruuid1);
         storage.save(ruuid3);

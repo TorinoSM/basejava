@@ -14,6 +14,16 @@ import static com.home.webapp.model.SectionType.*;
 
 public class SqlStorage implements Storage {
 
+    static {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("PostgreSQL JDBC Driver is not found. Include it in your library path");
+            e.printStackTrace();
+        }
+        System.out.println("PostgreSQL JDBC Driver successfully registered");
+    }
+
     private final String dbUrl, dbUser, dbPassword;
 
     public SqlStorage(String dbUrl, String dbUser, String dbPassword) {

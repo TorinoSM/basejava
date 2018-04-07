@@ -33,6 +33,11 @@ public class Organization implements Serializable {
         this.records = records;
     }
 
+    public Organization(String name, String url, List<Record> records) {
+        this(new Link(name, url), records);
+
+    }
+
     @Override
     public String toString() {
         return "Organization{" +

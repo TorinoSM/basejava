@@ -6,8 +6,11 @@ import com.home.webapp.exception.StorageException;
 import com.home.webapp.model.*;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.home.webapp.model.SectionType.*;
 
 public class SqlStorage implements Storage {
 
@@ -110,7 +113,7 @@ public class SqlStorage implements Storage {
                 for (Map.Entry<SectionType, Section> sectionEntry : sections.entrySet()) {
                     SectionType sectionType = sectionEntry.getKey();
                     Section section = sectionEntry.getValue();
-                    if (sectionType.equals(SectionType.ACHIEVEMENT) || sectionType.equals(SectionType.QUALIFICATIONS)) {
+                    if (sectionType.equals(ACHIEVEMENT) || sectionType.equals(QUALIFICATIONS)) {
                         String content = "";
                         ListSection section0 = (ListSection) section;
                         List<String> items = section0.getItems();
@@ -129,7 +132,7 @@ public class SqlStorage implements Storage {
                         continue;
                     }
 
-                    if (sectionType.equals(SectionType.PERSONAL) || sectionType.equals(SectionType.OBJECTIVE)) {
+                    if (sectionType.equals(PERSONAL) || sectionType.equals(OBJECTIVE)) {
                         TextSection section0 = (TextSection) section;
                         preparedStatement.setString(2, sectionType.toString());
                         preparedStatement.setString(3, section0.getContent());
@@ -211,17 +214,19 @@ public class SqlStorage implements Storage {
     @Override
     public Resume get(String uuid) {
         try (Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-             PreparedStatement preparedStatement = connection.prepareStatement("" +
-                     "SELECT * FROM resume AS r " +
-                     "LEFT JOIN contact AS c " +
-                     "ON r.uuid=c.resume_uuid " +
-                     "WHERE r.uuid=?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement
+                     ("SELECT * FROM resume AS r " +
+                             "LEFT JOIN contact AS c " +
+                             "ON r.uuid=c.resume_uuid " +
+                             "WHERE r.uuid=?")) {
             preparedStatement.setString(1, uuid);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.next()) {
                 throw new NotExistStorageException(uuid);
             }
+
             Resume resume = new Resume(uuid, resultSet.getString("full_name"));
+
             do {
                 String contactType = resultSet.getString("type");
                 if (contactType == null) {
@@ -229,7 +234,93 @@ public class SqlStorage implements Storage {
                 }
                 resume.addContact(ContactType.valueOf(contactType), resultSet.getString("value"));
             } while (resultSet.next());
+
+            try (PreparedStatement preparedStatement1 = connection.prepareStatement
+                    ("SELECT * FROM section WHERE resume_uuid=?")) {
+
+                preparedStatement1.setString(1, uuid);
+                ResultSet resultSet1 = preparedStatement1.executeQuery();
+
+                if (resultSet1.next()) {
+                    do {
+                        String sectionType = resultSet1.getString("type");
+                        if (sectionType == null) {
+                            break; // если секций нет, то прерываем цикл
+                        }
+
+                        if (SectionType.valueOf(sectionType).equals(OBJECTIVE) ||
+                                SectionType.valueOf(sectionType).equals(PERSONAL)) {
+
+                            TextSection section = new TextSection(resultSet1.getString("content"));
+                            resume.addSection(SectionType.valueOf(sectionType), section);
+                            continue;
+                        }
+
+                        if (SectionType.valueOf(sectionType).equals(ACHIEVEMENT) ||
+                                SectionType.valueOf(sectionType).equals(QUALIFICATIONS)) {
+
+
+                            String content = resultSet1.getString("content");
+                            String[] list = content.split("\n");
+                            ListSection section = new ListSection(list);
+                            resume.addSection(SectionType.valueOf(sectionType), section);
+                            continue;
+                        }
+
+                        Integer section_id = resultSet1.getInt("id");
+                        if (SectionType.valueOf(sectionType).equals(EXPERIENCE) ||
+                                SectionType.valueOf(sectionType).equals(EDUCATION)) {
+
+                            try (PreparedStatement preparedStatement2 = connection.prepareStatement
+                                    ("SELECT * FROM organisation WHERE section_id=?")) {
+
+                                preparedStatement2.setInt(1, section_id);
+                                ResultSet resultSet2 = preparedStatement2.executeQuery(); // организации
+                                List<Organization> organizations = new ArrayList<>();
+
+                                if (resultSet2.next()) {
+                                    do {
+                                        Integer organisation_id = resultSet2.getInt("id");
+                                        List<Organization.Record> records = new ArrayList<>();
+
+                                        try (PreparedStatement preparedStatement3 = connection.prepareStatement
+                                                ("SELECT * FROM record WHERE organisation_id=?")) {
+
+                                            preparedStatement3.setInt(1, organisation_id);
+                                            ResultSet resultSet3 = preparedStatement3.executeQuery(); // список записей
+
+                                            if (resultSet3.next()) {
+                                                do {
+                                                    String title = resultSet3.getString("title");
+                                                    String description = resultSet3.getString("description");
+                                                    LocalDate start_date = resultSet3.getObject("start_date", LocalDate.class);
+                                                    LocalDate end_date = resultSet3.getObject("end_date", LocalDate.class);
+                                                    Organization.Record record = new Organization.Record(start_date, end_date, title, description);
+                                                    records.add(record);
+                                                } while (resultSet3.next()); // records
+                                            } else System.out.println("Empty ResultSet while Selecting from Records");
+                                        }
+
+                                        String name = resultSet2.getString("name");
+                                        String url = resultSet2.getString("url");
+
+                                        Organization organization = new Organization(name, url, records);
+                                        organizations.add(organization);
+
+                                    } while (resultSet2.next()); // organizations
+
+                                    OrganizationSection section = new OrganizationSection(organizations);
+                                    resume.addSection(SectionType.valueOf(sectionType), section);
+
+                                } else System.out.println("Empty ResultSet while Selecting from Organisation");
+                            }
+                        }
+                    } while (resultSet1.next()); // organization sections
+                }
+            }
+
             return resume;
+
         } catch (SQLException e) {
             throw new StorageException("Error while getting resume from DB", "", e);
         }

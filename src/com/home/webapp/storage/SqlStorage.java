@@ -43,18 +43,15 @@ public class SqlStorage implements Storage {
                 preparedStatement.setString(1, uuid);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 resultSet.next();
-                if (Integer.valueOf(resultSet.getString(1)) == 0) {
+                if (resultSet.getInt(1) == 0) {
                     throw new NotExistStorageException(uuid);
                 }
             }
-            try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE resume SET full_name=? WHERE uuid=?")) {
-                preparedStatement.setString(1, uuid);
-                preparedStatement.setString(2, updatedResume.getFullName());
-                preparedStatement.execute();
-            }
 
-            // TODO: добавить обновление контактов и секций
-
+            connection.setAutoCommit(false);
+            delete(updatedResume.getUuid());
+            save(updatedResume);
+            connection.commit();
 
         } catch (SQLException e) {
             throw new StorageException("Error updating resume", "", e);

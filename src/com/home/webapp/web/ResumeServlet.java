@@ -1,6 +1,7 @@
 package com.home.webapp.web;
 
 import com.home.webapp.Config;
+import com.home.webapp.model.ContactType;
 import com.home.webapp.model.Resume;
 import com.home.webapp.storage.SqlStorage;
 
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 public class ResumeServlet extends HttpServlet {
 
@@ -31,6 +33,35 @@ public class ResumeServlet extends HttpServlet {
         Resume resume = storage.get(uuid);
 
         String fullName = resume.getFullName();
+        Map<ContactType, String> contactEntries = resume.getContacts();
+        String contacts = "<p>";
+        for (Map.Entry<ContactType, String> entry : contactEntries.entrySet()) {
+            ContactType contactType = entry.getKey();
+            String entryValue = entry.getValue();
+            String contactTypeTitle = contactType.getTitle();
+
+            switch (contactType) {
+                case GITHUB:
+                case LINKEDIN:
+                case STACKOVERFLOW:
+                case HOME_PAGE:
+                    contacts += "<a href='" + entryValue + "'>" + contactTypeTitle + "</a><br/>\n";
+                    break;
+                case HOME_PHONE:
+                case MOBILE:
+                case PHONE:
+                    contacts +=  contactTypeTitle+ ": " + entryValue + "<br/>\n";
+                    break;
+                case MAIL:
+                    contacts += "Почта: <a href='mailto:" + entryValue + "'> " + entryValue + "</a><br/>\n";
+                    break;
+                case SKYPE:
+                    contacts += "Skype: <a href='skype:" + entryValue + "'> " + entryValue + "</a><br/>\n";
+                    break;
+            }
+        }
+        contacts += "<p><hr>";
+
         String body = ""
                 + "<html>"
                 + "<head>"
@@ -39,6 +70,7 @@ public class ResumeServlet extends HttpServlet {
                 + "</head>"
                 + "<body>"
                 + "<h1>" + fullName + "</h1>"
+                + contacts
                 + "<p> To be continued…"
                 + "</body>"
                 + "</html>";

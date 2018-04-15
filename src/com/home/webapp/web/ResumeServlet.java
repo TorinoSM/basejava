@@ -18,7 +18,7 @@ public class ResumeServlet extends HttpServlet {
     private static String url = config.getDbUrl();
     private static String user = config.getDbUser();
     private static String password = config.getDbPassword();
-    private SqlStorage storage = new SqlStorage(url, user, password);
+    private static SqlStorage storage = new SqlStorage(url, user, password);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
